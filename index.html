@@ -4,29 +4,22 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Para Tati</title>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/turn.js/3/turn.min.js"></script>
     <style>
-        /* INCLUYE ACÁ TU @IMPORT DE GOOGLE FONTS */
-        /* Ejemplo: */
-        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Space+Mono&display=swap');
-
         /* RESETEO BÁSICO */
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
             background-color: #000;
             color: #fff;
-            font-family: 'Space Mono', monospace; /* Tu fuente principal */
+            font-family: monospace; /* Fuente segura para todos los celulares */
             overflow: hidden; 
             height: 100vh; width: 100vw;
         }
 
-        h1, h2 { font-family: 'Playfair Display', serif; /* Tu fuente de títulos */ }
-
         /* FONDO RESPONSIVO LANDING */
         #fondo-body {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background-image: url('fondo.jpg'); background-size: cover; background-position: center;
+            background-image: url('fondo.jpg'); 
+            background-size: cover; background-position: center;
             z-index: 1;
         }
 
@@ -40,243 +33,80 @@
         /* LANDING PAGE (Contenedor principal) */
         #landing-page {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            display: flex; flex-direction: column; z-index: 10;
+            z-index: 10;
         }
 
-        /* SECCIÓN SUPERIOR: EFECTO BLUR ZINE DE FONDO */
-        #zine-blur-container {
-            flex: 1; /* Ocupa el espacio superior disponible */
+        /* SECCIÓN CENTRAL: CENTRO CENTRO (Tatiana y Zine Blur) */
+        #centro-landing {
+            position: absolute;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
             display: flex; justify-content: center; align-items: center;
-            position: relative;
+            width: 100%; height: 100%;
         }
         #zine-fondo {
-            width: 80%; max-width: 300px; height: auto;
-            opacity: 0.6; filter: blur(4px); /* El efecto de calcar */
+            position: absolute;
+            width: 250px; height: auto;
+            opacity: 0.5; filter: blur(5px);
             z-index: 2;
         }
-
-        /* SECCIÓN CENTRAL: IMAGEN TATIANA (CENTRO CENTRO) */
-        #tatiana-container {
-            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            display: flex; justify-content: center; align-items: center;
-            pointer-events: none; /* No interrumpe clics abajo */
-        }
         #nombre-tatiana {
-            width: 80%; max-width: 400px; z-index: 5;
+            position: absolute;
+            width: 80%; max-width: 350px;
+            z-index: 3;
         }
 
         /* SECCIÓN INFERIOR: TEXTOS Y BOTONES (ABAJO ÚNICAMENTE) */
         #inferior-landing {
-            width: 100%;
-            padding: 20px;
+            position: absolute; bottom: 10%; width: 100%;
             display: flex; flex-direction: column; align-items: center;
-            position: absolute; bottom: 0;
-            z-index: 100; /* Asegura clics */
+            z-index: 100; 
         }
 
-        /* TEXTO PREGUNTA (reemplaza imagen) */
         #pregunta-texto {
-            font-size: 1.2rem;
-            text-align: center;
-            margin-bottom: 20px;
-            opacity: 0; /* Oculto al inicio */
-            transform: translateY(20px);
+            font-size: 1.2rem; margin-bottom: 20px;
+            opacity: 0; transform: translateY(20px);
             transition: opacity 1s ease, transform 1s ease;
+            text-shadow: 0px 2px 5px rgba(0,0,0,0.8);
         }
 
-        /* BOTONES LANDING ABAJO */
         #botones-landing {
-            opacity: 0; pointer-events: none; /* Desactivados hasta que aparezcan */
+            opacity: 0; pointer-events: none; 
             transition: opacity 1s ease;
             display: flex; gap: 20px;
         }
         button {
             background: rgba(0, 0, 0, 0.7); color: #fff;
             border: 1px solid #fff; padding: 12px 30px;
-            font-family: 'Space Mono', monospace; cursor: pointer;
+            font-family: monospace; cursor: pointer;
             border-radius: 5px; transition: background 0.3s;
-            backdrop-filter: blur(2px);
+            backdrop-filter: blur(2px); font-size: 1rem;
         }
         button:hover { background: #fff; color: #000; }
 
-        /* CONTENEDOR DEL ZINE (FLIPBOOK) */
+        /* CONTENEDOR DEL ZINE */
         #zine-wrapper {
-            display: none;
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background-color: #000; z-index: 50;
-            overflow: hidden;
-            display: flex; justify-content: center; align-items: center;
         }
 
-        #zine-flipbook {
-            width: 90%; max-width: 400px; /* Tamaño responsivo del zine */
-            height: 80vh; 
-            margin: 0 auto;
+        /* ÁREAS DE CLIC PARA PASAR PÁGINAS (Izquierda y Derecha) */
+        .zona-clic {
+            position: absolute; top: 0; height: 100%; width: 40%;
+            z-index: 80; cursor: pointer;
         }
+        #clic-izq { left: 0; }
+        #clic-der { right: 0; }
 
-        /* Estilo de cada página del zine */
+        /* LAS PÁGINAS (Animación E-Book) */
+        #zine-book {
+            position: relative; width: 100%; max-width: 500px; height: 100%;
+            margin: 0 auto; overflow: hidden;
+        }
         .page-zine {
-            width: 100%; height: 100%;
-            background-size: contain; /* Ajusta la imagen sin deformar */
-            background-position: center;
-            background-repeat: no-repeat;
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background-size: contain; background-position: center; background-repeat: no-repeat;
             background-color: #000;
-        }
-
-        /* EL SOL Y YOUTUBE (PÁGINA 9) */
-        #palabra-sol {
-            position: absolute;
-            cursor: pointer;
-            color: transparent; /* Invisible sobre tu dibujo */
-            width: 80px; height: 80px; 
-            top: 50%; left: 50%; transform: translate(-50%, -50%);
-            z-index: 60;
-        }
-
-        #youtube-container {
-            position: absolute;
-            top: 50%; left: 50%; transform: translate(-50%, -50%);
-            width: 300px; height: 180px;
-            z-index: 70; display: none;
-            box-shadow: 0px 0px 30px rgba(255, 200, 100, 0.4);
-            border-radius: 10px; overflow: hidden; background: black;
-        }
-        iframe { width: 100%; height: 100%; border: none; pointer-events: auto; }
-
-        /* ESTILO PÁGINA FINAL 12 */
-        #page-12 {
-            display: flex; flex-direction: column;
-            justify-content: center; align-items: center;
-        }
-        .final-p { font-size: 1.5rem; text-align: center; margin-bottom: 20px; }
-        .btn-group { display: flex; gap: 20px; }
-
-    </style>
-</head>
-<body>
-
-    <div id="fondo-body"></div>
-
-    <div id="pantalla-negra">
-        <p>No es para vos.</p>
-    </div>
-
-    <div id="landing-page">
-        <div id="zine-blur-container">
-            <img src="portada-zine.png" id="zine-fondo" alt="Fondo Zine">
-        </div>
-
-        <div id="tatiana-container">
-            <img src="tatiana.png" id="nombre-tatiana" alt="Tatiana">
-        </div>
-
-        <div id="inferior-landing">
-            <p id="pregunta-texto">¿Este es tu nombre?</p>
-
-            <div id="botones-landing">
-                <button onclick="empezarZine()">Sí</button>
-                <button onclick="rechazar()">No</button>
-            </div>
-        </div>
-    </div>
-
-    <div id="zine-wrapper">
-        <div id="zine-flipbook">
-            <div class="page-zine" style="background-image: url('zine-imagenes/p1.png');"></div>
-            <div class="page-zine" style="background-image: url('zine-imagenes/p2.png');"></div>
-            <div class="page-zine" style="background-image: url('zine-imagenes/p3.png');"></div>
-            <div class="page-zine" style="background-image: url('zine-imagenes/p4.png');"></div>
-            <div class="page-zine" style="background-image: url('zine-imagenes/p5.png');"></div>
-            <div class="page-zine" style="background-image: url('zine-imagenes/p6.png');"></div>
-            <div class="page-zine" style="background-image: url('zine-imagenes/p7.png');"></div>
-            <div class="page-zine" style="background-image: url('zine-imagenes/p8.png');"></div>
-            
-            <div class="page-zine" id="page-sol" style="background-image: url('zine-imagenes/p9.png'); position: relative;">
-                <div id="palabra-sol" onclick="abrirVideo(event)"></div>
-                
-                <div id="youtube-container">
-                    <iframe id="video-iframe" src="https://www.youtube.com/embed/ID_VIDEO_YOUTUBE?enablejsapi=1&loop=1&playlist=ID_VIDEO_YOUTUBE&controls=0"></iframe>
-                </div>
-            </div>
-
-            <div class="page-zine" style="background-image: url('zine-imagenes/p10.png');"></div>
-            <div class="page-zine" style="background-image: url('zine-imagenes/p11.png');"></div>
-            
-            <div class="page-zine" id="page-12">
-                <div style="background-image: url('zine-imagenes/p12.png'); width: 100%; height: 100%; display: flex; flex-direction: column; justify-content: center; align-items: center; background-size: contain; background-repeat: no-repeat; background-position: center;">
-                    <p class="final-p">¿Querés ser mi novia?</p>
-                    <div class="btn-group">
-                        <button onclick="alert('Llamame ya mismo.')">Sí</button>
-                        <button onclick="alert('Llamame ya mismo.')">Obvio</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <script>
-        // DOMContentLoaded asegura que el código solo corra cuando HTML esté listo.
-        $(document).ready(function() {
-            
-            // Aparece la pregunta de texto a los 4 segundos
-            setTimeout(() => {
-                let pregunta = $('#pregunta-texto');
-                pregunta.css({ 'opacity': '1', 'transform': 'translateY(0)' });
-            }, 4000);
-
-            // Aparecen los botones a los 6 segundos y se hacen clickeables
-            setTimeout(() => {
-                let botones = $('#botones-landing');
-                botones.css({ 'opacity': '1', 'pointer-events': 'auto' });
-            }, 6000);
-        });
-
-        // Opción NO
-        function rechazar() {
-            $('#landing-page').hide();
-            $('#fondo-body').hide();
-            $('#pantalla-negra').css('display', 'flex');
-        }
-
-        // Opción SÍ -> Inicializa el Flipbook
-        function empezarZine() {
-            $('#landing-page').hide();
-            $('#fondo-body').hide();
-            $('#zine-wrapper').show();
-            
-            // Inicializa la biblioteca turn.js (Efecto Flipbook)
-            $('#zine-flipbook').turn({
-                width: $('#zine-flipbook').width(),
-                height: $('#zine-flipbook').height(),
-                elevation: 50,
-                gradients: true,
-                autoCenter: true,
-                acceleration: true,
-                display: 'single' // Una sola página a la vez
-            });
-        }
-
-        // Lógica del Video en la Página 9 (Integrada al Flipbook)
-        function abrirVideo(event) {
-            event.stopPropagation();
-            $('#youtube-container').show();
-        }
-
-        // Cerrar Video si toca afuera
-        $(document).click(function(event) {
-            let contenedorVideo = $('#youtube-container');
-            let palabraSol = $('#palabra-sol');
-
-            if (contenedorVideo.is(':visible') && 
-                !contenedorVideo.contains(event.target) && 
-                event.target[0] !== palabraSol[0]) {
-                
-                contenedorVideo.hide();
-                let iframe = $('#video-iframe');
-                let src = iframe.attr('src');
-                iframe.attr('src', src); // recarga el iframe para frenar el video
-            }
-        });
-    </script>
-</body>
-</html>
+            opacity: 0; transform: translateX(50px);
+            transition: opacity 0.5s ease, transform 0.5s ease;
+            pointer-events: none
