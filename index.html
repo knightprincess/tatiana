@@ -4,30 +4,203 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Para Tati</title>
-    <link rel="stylesheet" href="style.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Space+Mono&display=swap');
+
+        /* RESETEO BÁSICO */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            background-color: #000;
+            color: #fff;
+            font-family: 'Space Mono', monospace;
+            overflow: hidden; /* Evita que se pueda scrollear */
+            height: 100vh;
+            width: 100vw;
+        }
+
+        /* FONDO RESPONSIVO DE LA LANDING PAGE */
+        #fondo-body {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background-image: url('fondo.jpg'); /* Tu imagen de fondo */
+            background-size: cover;
+            background-position: center;
+            z-index: 1;
+        }
+
+        /* PANTALLA NEGRA RECHAZO */
+        #pantalla-negra {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background-color: black;
+            display: none;
+            justify-content: center;
+            align-items: center;
+            font-size: 1.5rem;
+            z-index: 9999;
+            letter-spacing: 2px;
+        }
+
+        /* LANDING PAGE (Contenedor principal) */
+        #landing-page {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 10;
+        }
+
+        /* EFECTO BLUR ZINE DE FONDO */
+        #zine-blur-container {
+            position: absolute;
+            width: 80%;
+            max-width: 300px;
+            z-index: 2;
+        }
+        #zine-fondo {
+            width: 100%;
+            height: auto;
+            opacity: 0.6;
+            filter: blur(4px); /* El efecto de calcar */
+        }
+
+        /* IMÁGENES DEL LANDING */
+        #nombre-tatiana {
+            width: 80%;
+            max-width: 350px;
+            z-index: 3;
+            margin-bottom: 20px;
+        }
+
+        #pregunta-img {
+            width: 60%;
+            max-width: 250px;
+            z-index: 3;
+            opacity: 0; /* Oculto al inicio */
+            transform: translateY(20px);
+            transition: opacity 1s ease, transform 1s ease;
+        }
+
+        /* BOTONES LANDING */
+        #botones-landing {
+            margin-top: 30px;
+            z-index: 100; /* Z-index altísimo para asegurar que sean clickeables */
+            opacity: 0;
+            pointer-events: none; /* Desactivados hasta que aparezcan */
+            transition: opacity 1s ease;
+            display: flex;
+            gap: 20px;
+        }
+        button {
+            background: rgba(0, 0, 0, 0.7);
+            color: #fff;
+            border: 1px solid #fff;
+            padding: 12px 30px;
+            font-family: 'Space Mono', monospace;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: background 0.3s;
+        }
+        button:hover { background: #fff; color: #000; }
+
+        /* CONTENEDOR DEL ZINE */
+        #zine-container {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background-color: #000; /* Fondo negro sólido al entrar al zine */
+            z-index: 50;
+        }
+
+        .page {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.8s ease;
+        }
+
+        .page.active {
+            opacity: 1;
+            pointer-events: auto; /* Solo la página activa recibe clics */
+        }
+
+        .img-zine {
+            max-width: 100%;
+            max-height: 80vh; /* Deja lugar para el botón de siguiente */
+            object-fit: contain;
+        }
+
+        .next-btn {
+            margin-top: 20px;
+            font-style: italic;
+            border: none;
+            border-bottom: 1px solid #fff;
+            border-radius: 0;
+            background: transparent;
+        }
+        .next-btn:hover { background: transparent; color: #ccc; border-color: #ccc; }
+
+        /* EL SOL Y YOUTUBE EN PÁGINA 9 */
+        #palabra-sol {
+            position: absolute;
+            cursor: pointer;
+            color: transparent; /* Transparente para que vaya sobre tu dibujo */
+            width: 80px;  /* Ajustá el ancho según tu imagen */
+            height: 80px; /* Ajustá el alto según tu imagen */
+            top: 50%;     /* Movelo arriba/abajo */
+            left: 50%;    /* Movelo izquierda/derecha */
+            transform: translate(-50%, -50%);
+            z-index: 60;
+        }
+
+        #youtube-container {
+            position: absolute;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            width: 300px;
+            height: 180px;
+            z-index: 70;
+            display: none;
+            box-shadow: 0px 0px 30px rgba(255, 200, 100, 0.4);
+            border-radius: 10px;
+            overflow: hidden;
+            background: black;
+        }
+        iframe { width: 100%; height: 100%; border: none; pointer-events: auto; }
+
+    </style>
 </head>
 <body>
 
-    <div id="pantalla-negra" style="display: none;">
+    <div id="fondo-body"></div>
+
+    <div id="pantalla-negra">
         <p>No es para vos.</p>
     </div>
 
     <div id="landing-page">
         <div id="zine-blur-container">
-            <img src="01.png" alt="" id="zine-fondo">
-            <div class="hoja-de-calcar"></div> </div>
+            <img src="portada-zine.png" id="zine-fondo" alt="Fondo Zine">
+        </div>
 
-        <img src="tatiana.png" alt="Tatiana" id="nombre-tatiana">
+        <img src="tatiana.png" id="nombre-tatiana" alt="Tatiana">
 
-        <img src="pregunta.png" alt="¿Este es tu nombre?" id="pregunta-img">
+        <img src="pregunta.png" id="pregunta-img" alt="¿Este es tu nombre?">
 
-        <div class="btn-group" id="botones-landing">
+        <div id="botones-landing">
             <button onclick="empezarZine()">Sí</button>
             <button onclick="rechazar()">No</button>
         </div>
     </div>
 
-    <div id="zine-container" style="display: none;">
+    <div id="zine-container">
         
         <div class="page active" id="page-1"><img src="pagina1.png" class="img-zine"><button class="next-btn" onclick="nextPage(1)">Siguiente</button></div>
         <div class="page" id="page-2"><img src="pagina2.png" class="img-zine"><button class="next-btn" onclick="nextPage(2)">Siguiente</button></div>
@@ -37,25 +210,25 @@
         <div class="page" id="page-6"><img src="pagina6.png" class="img-zine"><button class="next-btn" onclick="nextPage(6)">Siguiente</button></div>
         <div class="page" id="page-7"><img src="pagina7.png" class="img-zine"><button class="next-btn" onclick="nextPage(7)">Siguiente</button></div>
         <div class="page" id="page-8"><img src="pagina8.png" class="img-zine"><button class="next-btn" onclick="nextPage(8)">Siguiente</button></div>
-
+        
         <div class="page" id="page-9">
             <img src="pagina9.png" class="img-zine">
             
-            <div id="palabra-sol" onclick="abrirVideo(event)">[ sol ]</div>
+            <div id="palabra-sol" onclick="abrirVideo(event)"></div>
             
-            <div id="youtube-container" style="display: none;">
-                <iframe id="video-iframe" src="https://www.youtube.com/embed/TU_ID_DE_VIDEO?enablejsapi=1&loop=1&playlist=TU_ID_DE_VIDEO&controls=0" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+            <div id="youtube-container">
+                <iframe id="video-iframe" src="https://www.youtube.com/embed/TU_ID_DE_VIDEO?enablejsapi=1&loop=1&playlist=TU_ID_DE_VIDEO&controls=0"></iframe>
             </div>
 
-            <button class="next-btn" onclick="nextPage(9)">Siguiente</button>
+            <button class="next-btn" onclick="nextPage(9)" style="position:absolute; bottom: 20px;">Siguiente</button>
         </div>
 
         <div class="page" id="page-10"><img src="pagina10.png" class="img-zine"><button class="next-btn" onclick="nextPage(10)">Siguiente</button></div>
         <div class="page" id="page-11"><img src="pagina11.png" class="img-zine"><button class="next-btn" onclick="nextPage(11)">Siguiente</button></div>
-
+        
         <div class="page" id="page-12">
             <img src="pagina12.png" class="img-zine">
-            <div class="btn-group final-btns">
+            <div style="margin-top: 20px; display: flex; gap: 20px;">
                 <button onclick="alert('Llamame ya mismo.')">Sí</button>
                 <button onclick="alert('Llamame ya mismo.')">Obvio</button>
             </div>
@@ -63,6 +236,71 @@
 
     </div>
 
-    <script src="script.js"></script>
+    <script>
+        // DOMContentLoaded asegura que el código solo corra cuando HTML esté listo.
+        document.addEventListener("DOMContentLoaded", function() {
+            
+            // Aparece la pregunta a los 4 segundos
+            setTimeout(() => {
+                let pregunta = document.getElementById('pregunta-img');
+                pregunta.style.opacity = '1';
+                pregunta.style.transform = 'translateY(0)';
+            }, 4000);
+
+            // Aparecen los botones a los 6 segundos y se hacen clickeables
+            setTimeout(() => {
+                let botones = document.getElementById('botones-landing');
+                botones.style.opacity = '1';
+                botones.style.pointerEvents = 'auto'; 
+            }, 6000);
+        });
+
+        // Opción NO
+        function rechazar() {
+            document.getElementById('landing-page').style.display = 'none';
+            document.getElementById('fondo-body').style.display = 'none';
+            document.getElementById('pantalla-negra').style.display = 'flex';
+        }
+
+        // Opción SÍ
+        function empezarZine() {
+            document.getElementById('landing-page').style.display = 'none';
+            document.getElementById('fondo-body').style.display = 'none';
+            let zine = document.getElementById('zine-container');
+            zine.style.display = 'block';
+        }
+
+        // Pasar de página
+        function nextPage(current) {
+            document.getElementById('page-' + current).classList.remove('active');
+            let next = current + 1;
+            let nxtElement = document.getElementById('page-' + next);
+            if (nxtElement) {
+                nxtElement.classList.add('active');
+            }
+        }
+
+        // Abrir Video en página 9
+        function abrirVideo(event) {
+            event.stopPropagation();
+            document.getElementById('youtube-container').style.display = 'block';
+        }
+
+        // Cerrar Video si toca afuera
+        document.addEventListener('click', function(event) {
+            let contenedorVideo = document.getElementById('youtube-container');
+            let palabraSol = document.getElementById('palabra-sol');
+
+            if (contenedorVideo.style.display === 'block' && 
+                !contenedorVideo.contains(event.target) && 
+                event.target !== palabraSol) {
+                
+                contenedorVideo.style.display = 'none';
+                let iframe = document.getElementById('video-iframe');
+                let src = iframe.src;
+                iframe.src = src; // recarga el iframe para frenar el video
+            }
+        });
+    </script>
 </body>
 </html>
