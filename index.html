@@ -13,16 +13,16 @@
             background-color: #000;
             color: #fff;
             font-family: 'Space Mono', monospace;
-            overflow: hidden; /* Evita que se pueda scrollear */
+            overflow: hidden; 
             height: 100vh;
             width: 100vw;
         }
 
-        /* FONDO RESPONSIVO DE LA LANDING PAGE */
+        /* FONDO RESPONSIVO */
         #fondo-body {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
-            background-image: url('fondo.jpg'); /* Tu imagen de fondo */
+            background-image: url('fondo.jpg'); 
             background-size: cover;
             background-position: center;
             z-index: 1;
@@ -41,7 +41,7 @@
             letter-spacing: 2px;
         }
 
-        /* LANDING PAGE (Contenedor principal) */
+        /* LANDING PAGE */
         #landing-page {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
@@ -52,7 +52,7 @@
             z-index: 10;
         }
 
-        /* EFECTO BLUR ZINE DE FONDO */
+        /* EFECTO BLUR ZINE */
         #zine-blur-container {
             position: absolute;
             width: 80%;
@@ -63,10 +63,10 @@
             width: 100%;
             height: auto;
             opacity: 0.6;
-            filter: blur(4px); /* El efecto de calcar */
+            filter: blur(4px); 
         }
 
-        /* IMÁGENES DEL LANDING */
+        /* IMÁGENES LANDING */
         #nombre-tatiana {
             width: 80%;
             max-width: 350px;
@@ -78,7 +78,7 @@
             width: 60%;
             max-width: 250px;
             z-index: 3;
-            opacity: 0; /* Oculto al inicio */
+            opacity: 0; 
             transform: translateY(20px);
             transition: opacity 1s ease, transform 1s ease;
         }
@@ -86,9 +86,9 @@
         /* BOTONES LANDING */
         #botones-landing {
             margin-top: 30px;
-            z-index: 100; /* Z-index altísimo para asegurar que sean clickeables */
+            z-index: 100; 
             opacity: 0;
-            pointer-events: none; /* Desactivados hasta que aparezcan */
+            pointer-events: none; 
             transition: opacity 1s ease;
             display: flex;
             gap: 20px;
@@ -105,12 +105,12 @@
         }
         button:hover { background: #fff; color: #000; }
 
-        /* CONTENEDOR DEL ZINE */
+        /* CONTENEDOR ZINE */
         #zine-container {
             display: none;
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
-            background-color: #000; /* Fondo negro sólido al entrar al zine */
+            background-color: #000; 
             z-index: 50;
         }
 
@@ -128,12 +128,12 @@
 
         .page.active {
             opacity: 1;
-            pointer-events: auto; /* Solo la página activa recibe clics */
+            pointer-events: auto; 
         }
 
         .img-zine {
             max-width: 100%;
-            max-height: 80vh; /* Deja lugar para el botón de siguiente */
+            max-height: 80vh; 
             object-fit: contain;
         }
 
@@ -147,15 +147,15 @@
         }
         .next-btn:hover { background: transparent; color: #ccc; border-color: #ccc; }
 
-        /* EL SOL Y YOUTUBE EN PÁGINA 9 */
+        /* EL SOL Y YOUTUBE (PAGINA 9) */
         #palabra-sol {
             position: absolute;
             cursor: pointer;
-            color: transparent; /* Transparente para que vaya sobre tu dibujo */
-            width: 80px;  /* Ajustá el ancho según tu imagen */
-            height: 80px; /* Ajustá el alto según tu imagen */
-            top: 50%;     /* Movelo arriba/abajo */
-            left: 50%;    /* Movelo izquierda/derecha */
+            color: transparent; 
+            width: 80px;  
+            height: 80px; 
+            top: 50%;     
+            left: 50%;    
             transform: translate(-50%, -50%);
             z-index: 60;
         }
@@ -175,6 +175,16 @@
         }
         iframe { width: 100%; height: 100%; border: none; pointer-events: auto; }
 
+        /* ESTILOS DEL BOTÓN VOLVER AL INICIO */
+        #btn-volver {
+            width: 50px; /* Es chiquito. Ajustá el tamaño acá si hace falta */
+            margin-top: 30px;
+            cursor: pointer;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 1.5s ease; /* Aparece muy suavemente */
+        }
+
     </style>
 </head>
 <body>
@@ -189,11 +199,8 @@
         <div id="zine-blur-container">
             <img src="portada-zine.png" id="zine-fondo" alt="Fondo Zine">
         </div>
-
         <img src="tatiana.png" id="nombre-tatiana" alt="Tatiana">
-
         <img src="pregunta.png" id="pregunta-img" alt="¿Este es tu nombre?">
-
         <div id="botones-landing">
             <button onclick="empezarZine()">Sí</button>
             <button onclick="rechazar()">No</button>
@@ -201,7 +208,6 @@
     </div>
 
     <div id="zine-container">
-        
         <div class="page active" id="page-1"><img src="pagina1.png" class="img-zine"><button class="next-btn" onclick="nextPage(1)">Siguiente</button></div>
         <div class="page" id="page-2"><img src="pagina2.png" class="img-zine"><button class="next-btn" onclick="nextPage(2)">Siguiente</button></div>
         <div class="page" id="page-3"><img src="pagina3.png" class="img-zine"><button class="next-btn" onclick="nextPage(3)">Siguiente</button></div>
@@ -213,13 +219,10 @@
         
         <div class="page" id="page-9">
             <img src="pagina9.png" class="img-zine">
-            
             <div id="palabra-sol" onclick="abrirVideo(event)"></div>
-            
             <div id="youtube-container">
                 <iframe id="video-iframe" src="https://www.youtube.com/embed/TU_ID_DE_VIDEO?enablejsapi=1&loop=1&playlist=TU_ID_DE_VIDEO&controls=0"></iframe>
             </div>
-
             <button class="next-btn" onclick="nextPage(9)" style="position:absolute; bottom: 20px;">Siguiente</button>
         </div>
 
@@ -229,40 +232,48 @@
         <div class="page" id="page-12">
             <img src="pagina12.png" class="img-zine">
             <div style="margin-top: 20px; display: flex; gap: 20px;">
-                <button onclick="alert('Llamame ya mismo.')">Sí</button>
-                <button onclick="alert('Llamame ya mismo.')">Obvio</button>
+                <button onclick="aceptarPropuesta()">Sí</button>
+                <button onclick="aceptarPropuesta()">Obvio</button>
             </div>
+            
+            <img src="boton-volver.png" id="btn-volver" onclick="reiniciarTodo()" alt="Volver al inicio">
         </div>
 
     </div>
 
     <script>
-        // DOMContentLoaded asegura que el código solo corra cuando HTML esté listo.
-        document.addEventListener("DOMContentLoaded", function() {
-            
-            // Aparece la pregunta a los 4 segundos
+        function iniciarTimersLanding() {
+            // Reinicia los estados por si viene del botón "Volver"
+            document.getElementById('pregunta-img').style.opacity = '0';
+            document.getElementById('pregunta-img').style.transform = 'translateY(20px)';
+            document.getElementById('botones-landing').style.opacity = '0';
+            document.getElementById('botones-landing').style.pointerEvents = 'none';
+
+            // Timer de 4 segundos
             setTimeout(() => {
                 let pregunta = document.getElementById('pregunta-img');
                 pregunta.style.opacity = '1';
                 pregunta.style.transform = 'translateY(0)';
             }, 4000);
 
-            // Aparecen los botones a los 6 segundos y se hacen clickeables
+            // Timer de 6 segundos
             setTimeout(() => {
                 let botones = document.getElementById('botones-landing');
                 botones.style.opacity = '1';
                 botones.style.pointerEvents = 'auto'; 
             }, 6000);
+        }
+
+        document.addEventListener("DOMContentLoaded", function() {
+            iniciarTimersLanding();
         });
 
-        // Opción NO
         function rechazar() {
             document.getElementById('landing-page').style.display = 'none';
             document.getElementById('fondo-body').style.display = 'none';
             document.getElementById('pantalla-negra').style.display = 'flex';
         }
 
-        // Opción SÍ
         function empezarZine() {
             document.getElementById('landing-page').style.display = 'none';
             document.getElementById('fondo-body').style.display = 'none';
@@ -270,7 +281,6 @@
             zine.style.display = 'block';
         }
 
-        // Pasar de página
         function nextPage(current) {
             document.getElementById('page-' + current).classList.remove('active');
             let next = current + 1;
@@ -280,13 +290,11 @@
             }
         }
 
-        // Abrir Video en página 9
         function abrirVideo(event) {
             event.stopPropagation();
             document.getElementById('youtube-container').style.display = 'block';
         }
 
-        // Cerrar Video si toca afuera
         document.addEventListener('click', function(event) {
             let contenedorVideo = document.getElementById('youtube-container');
             let palabraSol = document.getElementById('palabra-sol');
@@ -298,9 +306,45 @@
                 contenedorVideo.style.display = 'none';
                 let iframe = document.getElementById('video-iframe');
                 let src = iframe.src;
-                iframe.src = src; // recarga el iframe para frenar el video
+                iframe.src = src; 
             }
         });
+
+        // --- NUEVAS FUNCIONES PARA EL FINAL --- //
+
+        function aceptarPropuesta() {
+            // 1. Sale tu mensaje dominante y tierno de siempre
+            alert('Llamame ya mismo.'); 
+
+            // 2. Empieza a correr el reloj: a los 6000 milisegundos (6 segundos) aparece el botón de volver
+            setTimeout(() => {
+                let btnVolver = document.getElementById('btn-volver');
+                btnVolver.style.opacity = '1';
+                btnVolver.style.pointerEvents = 'auto';
+            }, 6000);
+        }
+
+        function reiniciarTodo() {
+            // Oculta el botón de volver para la próxima vez
+            let btnVolver = document.getElementById('btn-volver');
+            btnVolver.style.opacity = '0';
+            btnVolver.style.pointerEvents = 'none';
+
+            // Oculta el zine
+            document.getElementById('zine-container').style.display = 'none';
+            
+            // Vuelve a la página 1 del zine (escondido) para que esté listo si entra de nuevo
+            let paginas = document.querySelectorAll('.page');
+            paginas.forEach(p => p.classList.remove('active'));
+            document.getElementById('page-1').classList.add('active');
+
+            // Muestra el fondo y el landing page
+            document.getElementById('fondo-body').style.display = 'block';
+            document.getElementById('landing-page').style.display = 'flex';
+
+            // Arranca de cero los timers de los 4 y 6 segundos del inicio
+            iniciarTimersLanding();
+        }
     </script>
 </body>
 </html>
