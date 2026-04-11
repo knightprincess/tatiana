@@ -8,7 +8,7 @@
         /* RESETEO BÁSICO */
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
-            background-color: #050505; /* Un gris hiper oscuro por si el fondo tarda en cargar */
+            background-color: #050505; 
             color: #fff;
             font-family: monospace; 
             overflow: hidden; 
@@ -57,24 +57,40 @@
             display: flex; flex-direction: column; align-items: center; z-index: 100; 
         }
 
+        /* EFECTO VIDRIO TRANSPARENTE PARA EL TEXTO */
         #pregunta-texto {
-            #pregunta-texto {
-                font-size: 0.7rem; margin-bottom: 12px;
-                opacity: 0; transform: translateY(12px);
-                transition: opacity 1s ease, transform 1s ease; text-shadow: 0px 2px 5px rgba(0,0,0,0.8);
+            font-size: 0.85rem; margin-bottom: 12px;
+            padding: 8px 15px;
+            background: rgba(255, 255, 255, 0.05); /* Casi transparente */
+            backdrop-filter: blur(8px); /* Desenfoque */
+            -webkit-backdrop-filter: blur(8px);
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.15); /* Borde sutil blanco */
+            opacity: 0; transform: translateY(12px);
+            transition: opacity 1s ease, transform 1s ease; 
+            text-shadow: 0px 1px 3px rgba(0,0,0,0.8);
         }
 
         #botones-landing {
             opacity: 0; pointer-events: none; transition: opacity 1s ease; display: flex; gap: 20px;
         }
         
+        /* EFECTO VIDRIO TRANSPARENTE PARA LOS BOTONES */
         button {
-            background: rgba(0, 0, 0, 0.7); color: #fff;
-            border: 1px solid #fff; padding: 8px 20px; font-family: monospace; cursor: pointer;
-            border-radius: 5px; transition: background 0.3s; backdrop-filter: blur(2px); font-size: 0.85rem;
-    
+            background: rgba(255, 255, 255, 0.05); /* Casi transparente */
+            color: #fff;
+            border: 1px solid rgba(255, 255, 255, 0.2); 
+            padding: 8px 20px; font-family: monospace; cursor: pointer;
+            border-radius: 5px; transition: all 0.3s ease; 
+            backdrop-filter: blur(8px); /* Desenfoque */
+            -webkit-backdrop-filter: blur(8px);
+            font-size: 0.85rem;
         }
-        button:hover { background: #fff; color: #000; }
+        button:hover { 
+            background: rgba(255, 255, 255, 0.2); 
+            color: #fff; 
+            border: 1px solid rgba(255, 255, 255, 0.4);
+        }
 
         /* CONTENEDOR DEL ZINE (E-BOOK) */
         #zine-wrapper {
@@ -82,7 +98,7 @@
             background-color: #000; z-index: 50;
         }
 
-        /* ÁREAS DE CLIC PARA PASAR PÁGINAS (Izquierda y Derecha) */
+        /* ÁREAS DE CLIC PARA PASAR PÁGINAS */
         .zona-clic { position: absolute; top: 0; height: 100%; width: 40%; z-index: 80; cursor: pointer; }
         #clic-izq { left: 0; }
         #clic-der { right: 0; }
@@ -110,7 +126,7 @@
         /* PÁGINA FINAL 12 Y BOTÓN VOLVER */
         #page-12-content {
             width: 100%; height: 100%; display: flex; flex-direction: column; justify-content: flex-end; align-items: center; padding-bottom: 20%;
-            z-index: 100; position: relative; /* Para que quede por encima de la zona de clic */
+            z-index: 100; position: relative; 
         }
         .final-p { font-size: 1.5rem; text-align: center; margin-bottom: 20px; }
         
@@ -254,7 +270,7 @@
         });
 
         function aceptarPropuesta(event) {
-            event.stopPropagation(); // Evita que pase de página al hacer clic
+            event.stopPropagation(); 
             alert('Llamame ya mismo.'); 
 
             setTimeout(() => {
