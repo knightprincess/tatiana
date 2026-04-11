@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>For Tati</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div id="zine-container">
+        <div class="page active" id="page-1">
+            <h1>Tatiana.</h1>
+            <p>Is this your name?</p>
+            <div class="btn-group">
+                <button onclick="nextPage(1)">Yes</button>
+                <button onclick="alert('Liar. Try again.')">No</button>
+            </div>
+        </div>
+
+        <div class="page" id="page-2">
+            <p>Most people only have one sun.<br>But in my universe, there are two.</p>
+            <button class="next-btn" onclick="nextPage(2)">Continue</button>
+        </div>
+
+        <div class="page" id="page-3">
+            <p>The first is the dying star in the sky. It gives us days, but lately, daylight feels heavy.</p>
+            <button class="next-btn" onclick="nextPage(3)">Continue</button>
+        </div>
+
+        <div class="page" id="page-4">
+            <p>Because when the sun is up here, I know you are asleep 11 hours away. And the world feels a little empty without you.</p>
+            <button class="next-btn" onclick="nextPage(4)">Continue</button>
+        </div>
+
+        <div class="page" id="page-5">
+            <p>The second sun is you.<br>You light up my entire self.</p>
+            <button class="next-btn" onclick="nextPage(5)">Continue</button>
+        </div>
+
+        <div class="page" id="page-6">
+            <p>Since you arrived, since you became mine, my nights have become the brightest part of my day.</p>
+            <button class="next-btn" onclick="nextPage(6)">Continue</button>
+        </div>
+
+        <div class="page" id="page-7">
+            <p>Do you want to see how I see light when I'm with you?</p>
+            <button onclick="showVideo()">Yes</button>
+        </div>
+
+        <div class="page" id="page-8">
+            <video id="sun-video" src="sun.mp4" loop muted playsinline></video>
+            <p id="video-text" style="display:none;">It is blinding, warm, and entirely yours.</p>
+            <button class="next-btn" id="video-next-btn" style="display:none;" onclick="nextPage(8)">Continue</button>
+        </div>
+
+        <div class="page" id="page-9">
+            <p>We live on opposite sides of the clock. But the math of us has always been simple.</p>
+            <button class="next-btn" onclick="nextPage(9)">Continue</button>
+        </div>
+
+        <div class="page" id="page-10">
+            <p>We met on the 16th.<br>That is my number.</p>
+            <button class="next-btn" onclick="nextPage(10)">Continue</button>
+        </div>
+
+        <div class="page" id="page-11">
+            <p>Today is the 12th.<br>That is your number.</p>
+            <button class="next-btn" onclick="nextPage(11)">Continue</button>
+        </div>
+
+        <div class="page" id="page-12">
+            <p>I don't want to just be the guy who loves your mind from across the world.</p>
+            <button class="next-btn" onclick="nextPage(12)">Continue</button>
+        </div>
+
+        <div class="page" id="page-13">
+            <h1>Tatiana.</h1>
+            <p>Will you be my girlfriend?</p>
+            <div class="btn-group">
+                <button onclick="alert('Good girl. Call me right now.')">Yes</button>
+                <button onclick="alert('Good girl. Call me right now.')">Obviously</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
