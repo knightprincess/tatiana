@@ -1,87 +1,66 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>For Tati</title>
+    <title>Para Tati</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-    <div id="zine-container">
-        <div class="page active" id="page-1">
-            <h1>Tatiana.</h1>
-            <p>Is this your name?</p>
-            <div class="btn-group">
-                <button onclick="nextPage(1)">Yes</button>
-                <button onclick="alert('Liar. Try again.')">No</button>
-            </div>
-        </div>
+    <div id="pantalla-negra" style="display: none;">
+        <p>No es para vos.</p>
+    </div>
 
-        <div class="page" id="page-2">
-            <p>Most people only have one sun.<br>But in my universe, there are two.</p>
-            <button class="next-btn" onclick="nextPage(2)">Continue</button>
-        </div>
+    <div id="landing-page">
+        <div id="zine-blur-container">
+            <img src="portada-zine.png" alt="Zine de fondo" id="zine-fondo">
+            <div class="hoja-de-calcar"></div> </div>
 
-        <div class="page" id="page-3">
-            <p>The first is the dying star in the sky. It gives us days, but lately, daylight feels heavy.</p>
-            <button class="next-btn" onclick="nextPage(3)">Continue</button>
-        </div>
+        <img src="tatiana.png" alt="Tatiana" id="nombre-tatiana">
 
-        <div class="page" id="page-4">
-            <p>Because when the sun is up here, I know you are asleep 11 hours away. And the world feels a little empty without you.</p>
-            <button class="next-btn" onclick="nextPage(4)">Continue</button>
-        </div>
+        <img src="pregunta.png" alt="¿Este es tu nombre?" id="pregunta-img">
 
-        <div class="page" id="page-5">
-            <p>The second sun is you.<br>You light up my entire self.</p>
-            <button class="next-btn" onclick="nextPage(5)">Continue</button>
+        <div class="btn-group" id="botones-landing">
+            <button onclick="empezarZine()">Sí</button>
+            <button onclick="rechazar()">No</button>
         </div>
+    </div>
 
-        <div class="page" id="page-6">
-            <p>Since you arrived, since you became mine, my nights have become the brightest part of my day.</p>
-            <button class="next-btn" onclick="nextPage(6)">Continue</button>
-        </div>
-
-        <div class="page" id="page-7">
-            <p>Do you want to see how I see light when I'm with you?</p>
-            <button onclick="showVideo()">Yes</button>
-        </div>
-
-        <div class="page" id="page-8">
-            <video id="sun-video" src="sun.mp4" loop muted playsinline></video>
-            <p id="video-text" style="display:none;">It is blinding, warm, and entirely yours.</p>
-            <button class="next-btn" id="video-next-btn" style="display:none;" onclick="nextPage(8)">Continue</button>
-        </div>
+    <div id="zine-container" style="display: none;">
+        
+        <div class="page active" id="page-1"><img src="pagina1.png" class="img-zine"><button class="next-btn" onclick="nextPage(1)">Siguiente</button></div>
+        <div class="page" id="page-2"><img src="pagina2.png" class="img-zine"><button class="next-btn" onclick="nextPage(2)">Siguiente</button></div>
+        <div class="page" id="page-3"><img src="pagina3.png" class="img-zine"><button class="next-btn" onclick="nextPage(3)">Siguiente</button></div>
+        <div class="page" id="page-4"><img src="pagina4.png" class="img-zine"><button class="next-btn" onclick="nextPage(4)">Siguiente</button></div>
+        <div class="page" id="page-5"><img src="pagina5.png" class="img-zine"><button class="next-btn" onclick="nextPage(5)">Siguiente</button></div>
+        <div class="page" id="page-6"><img src="pagina6.png" class="img-zine"><button class="next-btn" onclick="nextPage(6)">Siguiente</button></div>
+        <div class="page" id="page-7"><img src="pagina7.png" class="img-zine"><button class="next-btn" onclick="nextPage(7)">Siguiente</button></div>
+        <div class="page" id="page-8"><img src="pagina8.png" class="img-zine"><button class="next-btn" onclick="nextPage(8)">Siguiente</button></div>
 
         <div class="page" id="page-9">
-            <p>We live on opposite sides of the clock. But the math of us has always been simple.</p>
-            <button class="next-btn" onclick="nextPage(9)">Continue</button>
+            <img src="pagina9.png" class="img-zine">
+            
+            <div id="palabra-sol" onclick="abrirVideo(event)">[ sol ]</div>
+            
+            <div id="youtube-container" style="display: none;">
+                <iframe id="video-iframe" src="https://www.youtube.com/embed/TU_ID_DE_VIDEO?enablejsapi=1&loop=1&playlist=TU_ID_DE_VIDEO&controls=0" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+            </div>
+
+            <button class="next-btn" onclick="nextPage(9)">Siguiente</button>
         </div>
 
-        <div class="page" id="page-10">
-            <p>We met on the 16th.<br>That is my number.</p>
-            <button class="next-btn" onclick="nextPage(10)">Continue</button>
-        </div>
-
-        <div class="page" id="page-11">
-            <p>Today is the 12th.<br>That is your number.</p>
-            <button class="next-btn" onclick="nextPage(11)">Continue</button>
-        </div>
+        <div class="page" id="page-10"><img src="pagina10.png" class="img-zine"><button class="next-btn" onclick="nextPage(10)">Siguiente</button></div>
+        <div class="page" id="page-11"><img src="pagina11.png" class="img-zine"><button class="next-btn" onclick="nextPage(11)">Siguiente</button></div>
 
         <div class="page" id="page-12">
-            <p>I don't want to just be the guy who loves your mind from across the world.</p>
-            <button class="next-btn" onclick="nextPage(12)">Continue</button>
-        </div>
-
-        <div class="page" id="page-13">
-            <h1>Tatiana.</h1>
-            <p>Will you be my girlfriend?</p>
-            <div class="btn-group">
-                <button onclick="alert('Good girl. Call me right now.')">Yes</button>
-                <button onclick="alert('Good girl. Call me right now.')">Obviously</button>
+            <img src="pagina12.png" class="img-zine">
+            <div class="btn-group final-btns">
+                <button onclick="alert('Llamame ya mismo.')">Sí</button>
+                <button onclick="alert('Llamame ya mismo.')">Obvio</button>
             </div>
         </div>
+
     </div>
 
     <script src="script.js"></script>
