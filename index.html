@@ -8,17 +8,17 @@
         /* RESETEO BÁSICO */
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
-            background-color: #000;
+            background-color: #050505; /* Un gris hiper oscuro por si el fondo tarda en cargar */
             color: #fff;
-            font-family: monospace; /* Fuente segura para todos los celulares */
+            font-family: monospace; 
             overflow: hidden; 
             height: 100vh; width: 100vw;
         }
 
-        /* FONDO RESPONSIVO LANDING */
+        /* FONDO (CARPETA IMG) */
         #fondo-body {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background-image: url('fondo.jpg'); 
+            background-image: url('img/fondo.jpg'); 
             background-size: cover; background-position: center;
             z-index: 1;
         }
@@ -30,83 +30,256 @@
             font-size: 1.5rem; z-index: 9999; letter-spacing: 2px;
         }
 
-        /* LANDING PAGE (Contenedor principal) */
+        /* LANDING PAGE */
         #landing-page {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             z-index: 10;
         }
 
-        /* SECCIÓN CENTRAL: CENTRO CENTRO (Tatiana y Zine Blur) */
+        /* SECCIÓN CENTRAL: CENTRO CENTRO */
         #centro-landing {
-            position: absolute;
-            top: 50%; left: 50%;
-            transform: translate(-50%, -50%);
+            position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
             display: flex; justify-content: center; align-items: center;
             width: 100%; height: 100%;
         }
+        
         #zine-fondo {
-            position: absolute;
-            width: 250px; height: auto;
-            opacity: 0.5; filter: blur(5px);
-            z-index: 2;
+            position: absolute; width: 250px; height: auto;
+            opacity: 0.5; filter: blur(5px); z-index: 2;
         }
         #nombre-tatiana {
-            position: absolute;
-            width: 80%; max-width: 350px;
-            z-index: 3;
+            position: absolute; width: 80%; max-width: 350px; z-index: 3;
         }
 
-        /* SECCIÓN INFERIOR: TEXTOS Y BOTONES (ABAJO ÚNICAMENTE) */
+        /* SECCIÓN INFERIOR: TEXTOS Y BOTONES ABAJO */
         #inferior-landing {
             position: absolute; bottom: 10%; width: 100%;
-            display: flex; flex-direction: column; align-items: center;
-            z-index: 100; 
+            display: flex; flex-direction: column; align-items: center; z-index: 100; 
         }
 
         #pregunta-texto {
             font-size: 1.2rem; margin-bottom: 20px;
             opacity: 0; transform: translateY(20px);
-            transition: opacity 1s ease, transform 1s ease;
-            text-shadow: 0px 2px 5px rgba(0,0,0,0.8);
+            transition: opacity 1s ease, transform 1s ease; text-shadow: 0px 2px 5px rgba(0,0,0,0.8);
         }
 
         #botones-landing {
-            opacity: 0; pointer-events: none; 
-            transition: opacity 1s ease;
-            display: flex; gap: 20px;
+            opacity: 0; pointer-events: none; transition: opacity 1s ease; display: flex; gap: 20px;
         }
+        
         button {
             background: rgba(0, 0, 0, 0.7); color: #fff;
-            border: 1px solid #fff; padding: 12px 30px;
-            font-family: monospace; cursor: pointer;
-            border-radius: 5px; transition: background 0.3s;
-            backdrop-filter: blur(2px); font-size: 1rem;
+            border: 1px solid #fff; padding: 12px 30px; font-family: monospace; cursor: pointer;
+            border-radius: 5px; transition: background 0.3s; backdrop-filter: blur(2px); font-size: 1rem;
         }
         button:hover { background: #fff; color: #000; }
 
-        /* CONTENEDOR DEL ZINE */
+        /* CONTENEDOR DEL ZINE (E-BOOK) */
         #zine-wrapper {
             display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background-color: #000; z-index: 50;
         }
 
         /* ÁREAS DE CLIC PARA PASAR PÁGINAS (Izquierda y Derecha) */
-        .zona-clic {
-            position: absolute; top: 0; height: 100%; width: 40%;
-            z-index: 80; cursor: pointer;
-        }
+        .zona-clic { position: absolute; top: 0; height: 100%; width: 40%; z-index: 80; cursor: pointer; }
         #clic-izq { left: 0; }
         #clic-der { right: 0; }
 
-        /* LAS PÁGINAS (Animación E-Book) */
         #zine-book {
-            position: relative; width: 100%; max-width: 500px; height: 100%;
-            margin: 0 auto; overflow: hidden;
+            position: relative; width: 100%; max-width: 500px; height: 100%; margin: 0 auto; overflow: hidden;
         }
         .page-zine {
             position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            background-size: contain; background-position: center; background-repeat: no-repeat;
-            background-color: #000;
-            opacity: 0; transform: translateX(50px);
-            transition: opacity 0.5s ease, transform 0.5s ease;
-            pointer-events: none
+            background-size: contain; background-position: center; background-repeat: no-repeat; background-color: #000;
+            opacity: 0; transform: translateX(50px); transition: opacity 0.5s ease, transform 0.5s ease; pointer-events: none; 
+        }
+        .page-zine.active { opacity: 1; transform: translateX(0); pointer-events: auto; z-index: 60; }
+
+        /* EL SOL Y YOUTUBE (PÁGINA 9) */
+        #palabra-sol {
+            position: absolute; width: 80px; height: 80px; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 100; cursor: pointer; 
+        }
+        #youtube-container {
+            position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+            width: 300px; height: 180px; z-index: 110; display: none; box-shadow: 0px 0px 30px rgba(255, 200, 100, 0.4); border-radius: 10px; overflow: hidden; background: black;
+        }
+        iframe { width: 100%; height: 100%; border: none; pointer-events: auto; }
+
+        /* PÁGINA FINAL 12 Y BOTÓN VOLVER */
+        #page-12-content {
+            width: 100%; height: 100%; display: flex; flex-direction: column; justify-content: flex-end; align-items: center; padding-bottom: 20%;
+            z-index: 100; position: relative; /* Para que quede por encima de la zona de clic */
+        }
+        .final-p { font-size: 1.5rem; text-align: center; margin-bottom: 20px; }
+        
+        #btn-volver {
+            width: 50px; margin-top: 30px; cursor: pointer;
+            opacity: 0; pointer-events: none; transition: opacity 1.5s ease;
+            z-index: 110;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="fondo-body"></div>
+    <div id="pantalla-negra"><p>No es para vos.</p></div>
+
+    <div id="landing-page">
+        <div id="centro-landing">
+            <img src="img/portada-zine.png" id="zine-fondo" alt="Fondo Zine">
+            <img src="img/tatiana.png" id="nombre-tatiana" alt="Tatiana">
+        </div>
+
+        <div id="inferior-landing">
+            <p id="pregunta-texto">¿Este es tu nombre?</p>
+            <div id="botones-landing">
+                <button onclick="empezarZine()">Sí</button>
+                <button onclick="rechazar()">No</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="zine-wrapper">
+        <div id="clic-izq" class="zona-clic" onclick="paginaAnterior()"></div>
+        <div id="clic-der" class="zona-clic" onclick="paginaSiguiente()"></div>
+
+        <div id="zine-book">
+            <div class="page-zine active" id="p1" style="background-image: url('zine-imagenes/p1.png');"></div>
+            <div class="page-zine" id="p2" style="background-image: url('zine-imagenes/p2.png');"></div>
+            <div class="page-zine" id="p3" style="background-image: url('zine-imagenes/p3.png');"></div>
+            <div class="page-zine" id="p4" style="background-image: url('zine-imagenes/p4.png');"></div>
+            <div class="page-zine" id="p5" style="background-image: url('zine-imagenes/p5.png');"></div>
+            <div class="page-zine" id="p6" style="background-image: url('zine-imagenes/p6.png');"></div>
+            <div class="page-zine" id="p7" style="background-image: url('zine-imagenes/p7.png');"></div>
+            <div class="page-zine" id="p8" style="background-image: url('zine-imagenes/p8.png');"></div>
+            
+            <div class="page-zine" id="p9" style="background-image: url('zine-imagenes/p9.png');">
+                <div id="palabra-sol" onclick="abrirVideo(event)"></div>
+                <div id="youtube-container">
+                    <iframe id="video-iframe" src="https://www.youtube.com/embed/TU_ID_DE_VIDEO?enablejsapi=1&loop=1&playlist=TU_ID_DE_VIDEO&controls=0"></iframe>
+                </div>
+            </div>
+
+            <div class="page-zine" id="p10" style="background-image: url('zine-imagenes/p10.png');"></div>
+            <div class="page-zine" id="p11" style="background-image: url('zine-imagenes/p11.png');"></div>
+            
+            <div class="page-zine" id="p12" style="background-image: url('zine-imagenes/p12.png');">
+                <div id="page-12-content">
+                    <p class="final-p">¿Querés ser mi novia?</p>
+                    <div style="display: flex; gap: 20px;">
+                        <button onclick="aceptarPropuesta(event)">Sí</button>
+                        <button onclick="aceptarPropuesta(event)">Obvio</button>
+                    </div>
+                    <img src="img/boton-volver.png" id="btn-volver" onclick="reiniciarTodo(event)" alt="Volver al inicio">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function iniciarTimersLanding() {
+            document.getElementById('pregunta-texto').style.opacity = '0';
+            document.getElementById('pregunta-texto').style.transform = 'translateY(20px)';
+            document.getElementById('botones-landing').style.opacity = '0';
+            document.getElementById('botones-landing').style.pointerEvents = 'none';
+
+            setTimeout(function() {
+                document.getElementById('pregunta-texto').style.opacity = '1';
+                document.getElementById('pregunta-texto').style.transform = 'translateY(0)';
+            }, 4000);
+
+            setTimeout(function() {
+                document.getElementById('botones-landing').style.opacity = '1';
+                document.getElementById('botones-landing').style.pointerEvents = 'auto';
+            }, 6000);
+        }
+
+        window.onload = function() {
+            iniciarTimersLanding();
+        };
+
+        function rechazar() {
+            document.getElementById('landing-page').style.display = 'none';
+            document.getElementById('fondo-body').style.display = 'none';
+            document.getElementById('pantalla-negra').style.display = 'flex';
+        }
+
+        function empezarZine() {
+            document.getElementById('landing-page').style.display = 'none';
+            document.getElementById('fondo-body').style.display = 'none';
+            document.getElementById('zine-wrapper').style.display = 'block';
+        }
+
+        let paginaActual = 1;
+        const totalPaginas = 12;
+
+        function paginaSiguiente() {
+            if (paginaActual < totalPaginas) {
+                document.getElementById('p' + paginaActual).classList.remove('active');
+                paginaActual++;
+                document.getElementById('p' + paginaActual).classList.add('active');
+            }
+        }
+
+        function paginaAnterior() {
+            if (paginaActual > 1) {
+                document.getElementById('p' + paginaActual).classList.remove('active');
+                paginaActual--;
+                document.getElementById('p' + paginaActual).classList.add('active');
+            }
+        }
+
+        function abrirVideo(event) {
+            event.stopPropagation(); 
+            document.getElementById('youtube-container').style.display = 'block';
+        }
+
+        document.addEventListener('click', function(event) {
+            let contenedorVideo = document.getElementById('youtube-container');
+            let palabraSol = document.getElementById('palabra-sol');
+
+            if (contenedorVideo && contenedorVideo.style.display === 'block' && 
+                !contenedorVideo.contains(event.target) && 
+                event.target !== palabraSol) {
+                
+                contenedorVideo.style.display = 'none';
+                let iframe = document.getElementById('video-iframe');
+                if(iframe) {
+                    let src = iframe.src;
+                    iframe.src = src; 
+                }
+            }
+        });
+
+        function aceptarPropuesta(event) {
+            event.stopPropagation(); // Evita que pase de página al hacer clic
+            alert('Llamame ya mismo.'); 
+
+            setTimeout(() => {
+                let btnVolver = document.getElementById('btn-volver');
+                btnVolver.style.opacity = '1';
+                btnVolver.style.pointerEvents = 'auto';
+            }, 6000);
+        }
+
+        function reiniciarTodo(event) {
+            event.stopPropagation();
+            
+            let btnVolver = document.getElementById('btn-volver');
+            btnVolver.style.opacity = '0';
+            btnVolver.style.pointerEvents = 'none';
+
+            document.getElementById('zine-wrapper').style.display = 'none';
+            
+            document.getElementById('p' + paginaActual).classList.remove('active');
+            paginaActual = 1;
+            document.getElementById('p1').classList.add('active');
+
+            document.getElementById('fondo-body').style.display = 'block';
+            document.getElementById('landing-page').style.display = 'flex';
+
+            iniciarTimersLanding();
+        }
+    </script>
+</body>
+</html>
