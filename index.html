@@ -5,11 +5,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Para Tati</title>
     <style>
+        /* IMPORTAMOS LA FUENTE CURSIVA Y ELEGANTE */
+        @import url('https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap');
+
         /* RESETEO BÁSICO */
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
             background-color: #050505; 
             color: #fff;
+            /* Dejamos monospace para los botones y textos chicos para que se lean bien */
             font-family: monospace; 
             overflow: hidden; 
             height: 100vh; width: 100vw;
@@ -57,91 +61,95 @@
             display: flex; flex-direction: column; align-items: center; z-index: 100; 
         }
 
-        /* EFECTO VIDRIO TRANSPARENTE PARA EL TEXTO */
+        /* TEXTO CURSIVO Y ELEGANTE */
         #pregunta-texto {
-            font-size: 0.85rem; margin-bottom: 12px;
-            padding: 8px 15px;
-            background: rgba(255, 255, 255, 0.05); 
-            backdrop-filter: blur(8px); 
-            -webkit-backdrop-filter: blur(8px);
-            border-radius: 8px;
-            border: 1px solid rgba(255, 255, 255, 0.15); 
+            font-family: 'Great Vibes', cursive;
+            font-size: 2.2rem; /* Más grande porque la cursiva lo requiere */
+            margin-bottom: 12px;
             opacity: 0; transform: translateY(12px);
             transition: opacity 1s ease, transform 1s ease; 
-            text-shadow: 0px 1px 3px rgba(0,0,0,0.8);
+            text-shadow: 0px 2px 5px rgba(0,0,0,0.8);
+            letter-spacing: 1px;
         }
 
         #botones-landing {
             opacity: 0; pointer-events: none; transition: opacity 1s ease; display: flex; gap: 20px;
         }
         
-        /* EFECTO VIDRIO TRANSPARENTE PARA LOS BOTONES */
+        /* BOTONES TRANSPARENTES (SOLO BORDE) */
         button {
-            background: rgba(255, 255, 255, 0.05); 
+            background: transparent; 
             color: #fff;
-            border: 1px solid rgba(255, 255, 255, 0.2); 
-            padding: 8px 20px; font-family: monospace; cursor: pointer;
-            border-radius: 5px; transition: all 0.3s ease; 
-            backdrop-filter: blur(8px); 
-            -webkit-backdrop-filter: blur(8px);
-            font-size: 0.85rem;
+            border: 1px solid rgba(255, 255, 255, 0.6); 
+            padding: 8px 25px; 
+            font-family: monospace; 
+            cursor: pointer;
+            border-radius: 5px; 
+            transition: all 0.3s ease; 
+            font-size: 0.9rem;
+            letter-spacing: 1px;
         }
         button:hover { 
-            background: rgba(255, 255, 255, 0.2); 
-            color: #fff; 
-            border: 1px solid rgba(255, 255, 255, 0.4);
+            background: rgba(255, 255, 255, 0.1); 
+            border: 1px solid rgba(255, 255, 255, 1);
         }
 
-        /* CONTENEDOR DEL ZINE (FONDO GENERAL DE LA LECTURA) */
+        /* CONTENEDOR DEL ZINE */
         #zine-wrapper {
             display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background-color: rgba(0, 0, 0, 0.9); /* Un fondo súper oscuro para resaltar el zine */
+            background-color: rgba(0, 0, 0, 0.9); 
             z-index: 50;
         }
 
-        /* ÁREAS DE CLIC PARA PASAR PÁGINAS (Laterales) */
+        /* ÁREAS DE CLIC */
         .zona-clic { position: absolute; top: 0; height: 100%; width: 40%; z-index: 80; cursor: pointer; }
         #clic-izq { left: 0; }
         #clic-der { right: 0; }
 
-        /* === EL LIBRO EN SÍ (TAMAÑO FIJO EN EL CENTRO) === */
+        /* EL LIBRO */
         #zine-book {
             position: absolute; 
             top: 50%; left: 50%; 
             transform: translate(-50%, -50%);
-            width: 250px;  /* EL MISMO ANCHO EXACTO DE LA PORTADA DEL INICIO */
-            height: 380px; /* ALTO PROPORCIONAL */
+            width: 250px;  
+            height: 380px; 
             margin: 0 auto; overflow: hidden;
-            box-shadow: 0px 5px 25px rgba(0,0,0,0.8); /* Le da aspecto físico de librito */
+            box-shadow: 0px 5px 25px rgba(0,0,0,0.8); 
         }
 
         .page-zine {
             position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            background-size: contain; /* Ajusta la imagen perfecto al recuadro */
+            background-size: contain; 
             background-position: center; background-repeat: no-repeat; 
             background-color: transparent;
             opacity: 0; transform: translateX(50px); transition: opacity 0.5s ease, transform 0.5s ease; pointer-events: none; 
         }
         .page-zine.active { opacity: 1; transform: translateX(0); pointer-events: auto; z-index: 60; }
 
-        /* EL SOL Y YOUTUBE (PÁGINA 9) */
+        /* EL SOL Y YOUTUBE */
         #palabra-sol {
             position: absolute; width: 80px; height: 80px; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 100; cursor: pointer; 
         }
         #youtube-container {
             position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
-            width: 220px; /* Achicado para que entre bien en los 250px del zine */
+            width: 220px; 
             height: 130px; 
             z-index: 110; display: none; box-shadow: 0px 0px 30px rgba(255, 200, 100, 0.4); border-radius: 10px; overflow: hidden; background: black;
         }
         iframe { width: 100%; height: 100%; border: none; pointer-events: auto; }
 
-        /* PÁGINA FINAL 12 Y BOTÓN VOLVER */
+        /* PÁGINA FINAL 12 */
         #page-12-content {
             width: 100%; height: 100%; display: flex; flex-direction: column; justify-content: center; align-items: center; 
             z-index: 100; position: relative; 
         }
-        .final-p { font-size: 1.1rem; text-align: center; margin-bottom: 20px; }
+        .final-p { 
+            font-family: 'Great Vibes', cursive; /* Misma cursiva acá */
+            font-size: 2.5rem; 
+            text-align: center; 
+            margin-bottom: 20px; 
+            text-shadow: 0px 2px 5px rgba(0,0,0,0.8);
+        }
         
         #btn-volver {
             width: 40px; margin-top: 20px; cursor: pointer;
@@ -238,4 +246,79 @@
         function empezarZine() {
             document.getElementById('landing-page').style.display = 'none';
             document.getElementById('fondo-body').style.display = 'none';
-            document.getElementById('zine-wrapper').style.display =
+            document.getElementById('zine-wrapper').style.display = 'block';
+        }
+
+        let paginaActual = 1;
+        const totalPaginas = 12;
+
+        function paginaSiguiente() {
+            if (paginaActual < totalPaginas) {
+                document.getElementById('p' + paginaActual).classList.remove('active');
+                paginaActual++;
+                document.getElementById('p' + paginaActual).classList.add('active');
+            }
+        }
+
+        function paginaAnterior() {
+            if (paginaActual > 1) {
+                document.getElementById('p' + paginaActual).classList.remove('active');
+                paginaActual--;
+                document.getElementById('p' + paginaActual).classList.add('active');
+            }
+        }
+
+        function abrirVideo(event) {
+            event.stopPropagation(); 
+            document.getElementById('youtube-container').style.display = 'block';
+        }
+
+        document.addEventListener('click', function(event) {
+            let contenedorVideo = document.getElementById('youtube-container');
+            let palabraSol = document.getElementById('palabra-sol');
+
+            if (contenedorVideo && contenedorVideo.style.display === 'block' && 
+                !contenedorVideo.contains(event.target) && 
+                event.target !== palabraSol) {
+                
+                contenedorVideo.style.display = 'none';
+                let iframe = document.getElementById('video-iframe');
+                if(iframe) {
+                    let src = iframe.src;
+                    iframe.src = src; 
+                }
+            }
+        });
+
+        function aceptarPropuesta(event) {
+            event.stopPropagation(); 
+            alert('Llamame ya mismo.'); 
+
+            setTimeout(() => {
+                let btnVolver = document.getElementById('btn-volver');
+                btnVolver.style.opacity = '1';
+                btnVolver.style.pointerEvents = 'auto';
+            }, 6000);
+        }
+
+        function reiniciarTodo(event) {
+            event.stopPropagation();
+            
+            let btnVolver = document.getElementById('btn-volver');
+            btnVolver.style.opacity = '0';
+            btnVolver.style.pointerEvents = 'none';
+
+            document.getElementById('zine-wrapper').style.display = 'none';
+            
+            document.getElementById('p' + paginaActual).classList.remove('active');
+            paginaActual = 1;
+            document.getElementById('p1').classList.add('active');
+
+            document.getElementById('fondo-body').style.display = 'block';
+            document.getElementById('landing-page').style.display = 'flex';
+
+            iniciarTimersLanding();
+        }
+    </script>
+</body>
+</html>
