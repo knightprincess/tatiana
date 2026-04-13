@@ -73,7 +73,7 @@
             margin-bottom: 12px;
             opacity: 0; transform: translateY(12px);
             transition: opacity 1s ease, transform 1s ease; 
-            text-shadow: 0px 2px 5px rgba(0,0,0,0.2);
+            text-shadow: #fff
             letter-spacing: 1px;
         }
 
@@ -83,7 +83,9 @@
         
         /* BOTONES TRANSPARENTES (SOLO BORDE) */
         button {
-            background: transparent; 
+            background: rgba(255, 255, 255, 0.2); /* The '0.1' makes it 10% visible (very translucent) */
+            backdrop-filter: blur(5px); /* This blurs whatever is behind the button */
+            -webkit-backdrop-filter: blur(5px); /* This makes sure the blur works on iPhones/Safari */
             color: #dc9cad; /*borrar si no funciona */
             border: 1px solid rgba(255, 255, 255, 0.6); 
             padding: 8px 25px; 
