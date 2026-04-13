@@ -3,27 +3,25 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>For Tati <3</title>
+    <title>Para Tati</title>
     <style>
-        
         /* CARGAMOS TU FUENTE DESCARGADA */
-    @font-face {
-    font-family: 'FuenteTati'; /* Este es el nombre que le inventamos para usarla ahora */
-    src: url('fonts/fuente-tati.otf'); /* La ruta exacta de tu archivo. Si es .otf, poné .otf */
-}
+        @font-face {
+            font-family: 'FuenteTati'; 
+            src: url('fonts/fuente-tati.otf'); 
+        }
 
         /* RESETEO BÁSICO */
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
             background-color: #050505; 
             color: #fff;
-            /* Dejamos monospace para los botones y textos chicos para que se lean bien */
             font-family: 'FuenteTati'; 
             overflow: hidden; 
             height: 100vh; width: 100vw;
         }
 
-        /* FONDO (CARPETA IMG) */
+        /* FONDO PRINCIPAL (CARPETA IMG) */
         #fondo-body {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background-image: url('img/bg02.jpg'); 
@@ -37,12 +35,30 @@
             background-image: url('img/bg02.jpg'); 
             background-size: cover; background-position: center;
             font-size: 1.0rem; 
-            color: #dc9cad; /*borrar si no funciona */
+            color: #dc9cad; 
+            display: none; 
+            flex-direction: column;
+            justify-content: center; 
+            align-items: center; 
+            text-align: center; 
+            z-index: 9999;
+        }
 
-            display: none; /* Lo dejamos oculto hasta que ella toque "No" */
-            justify-content: center; /* Lo centra de izquierda a derecha */
-            align-items: center; /* Lo centra de arriba a abajo */
-            text-align: center; /* Asegura que el texto en sí quede prolijo si ocupa varias líneas */
+        /* FLECHA PARA VOLVER (Pantalla Negra) */
+        .flecha-volver {
+            margin-top: 30px;
+            cursor: pointer;
+            padding: 10px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            transition: all 0.3s ease;
+        }
+        .flecha-volver:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: scale(1.1);
         }
 
         /* LANDING PAGE */
@@ -63,7 +79,7 @@
             opacity: 0.5; filter: blur(5px); z-index: 2;
         }
         #nombre-tatiana {
-            position: absolute; width: 90%; max-width: 680px; z-index: 3; /*480*/
+            position: absolute; width: 90%; max-width: 680px; z-index: 3; 
         }
 
         /* SECCIÓN INFERIOR: TEXTOS Y BOTONES ABAJO */
@@ -74,13 +90,13 @@
 
         /* TEXTO CURSIVO Y ELEGANTE */
         #pregunta-texto {
-            font-family: 'FuenteTati', cursive; /* ACA USAMOS TU FUENTE */
+            font-family: 'FuenteTati', cursive; 
             font-size: 0.9rem; 
-            color: #dc9cad; /*borrar si no funciona */
+            color: #dc9cad; 
             margin-bottom: 12px;
             opacity: 0; transform: translateY(12px);
             transition: opacity 1s ease, transform 1s ease; 
-            text-shadow: #fff
+            text-shadow: 0px 1px 3px rgba(0,0,0,0.8);
             letter-spacing: 1px;
         }
 
@@ -90,10 +106,10 @@
         
         /* BOTONES TRANSPARENTES (SOLO BORDE) */
         button {
-            background: rgba(255, 255, 255, 0.2); /* The '0.1' makes it 10% visible (very translucent) */
-            backdrop-filter: blur(5px); /* This blurs whatever is behind the button */
-            -webkit-backdrop-filter: blur(5px); /* This makes sure the blur works on iPhones/Safari */
-            color: #dc9cad; /*borrar si no funciona */
+            background: rgba(255, 255, 255, 0.2); 
+            backdrop-filter: blur(5px); 
+            -webkit-backdrop-filter: blur(5px); 
+            color: #dc9cad; 
             border: 1px solid rgba(255, 255, 255, 0.6); 
             padding: 8px 25px; 
             font-family: 'FuenteTati'; 
@@ -108,61 +124,57 @@
             border: 1px solid rgba(255, 255, 255, 1);
         }
 
-        /* CONTENEDOR DEL ZINE */
+        /* CONTENEDOR GENERAL DEL MODO LECTURA DEL ZINE */
         #zine-wrapper {
             display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background-color: rgba(0, 0, 0, 0.9); 
+            /* ACÁ CARGA LA NUEVA IMAGEN DE FONDO PARA CUANDO LEE EL ZINE */
+            background-image: url('img/fondo-lectura.jpg');
+            background-size: cover; background-position: center;
+            background-color: #070707; /* Color de respaldo si no hay imagen */
             z-index: 50;
+            justify-content: center;
+            align-items: center;
         }
 
-        /* ÁREAS DE CLIC */
-        .zona-clic { position: absolute; top: 0; height: 100%; width: 40%; z-index: 80; cursor: pointer; }
-        #clic-izq { left: 0; }
-        #clic-der { right: 0; }
-
-        /* EL LIBRO */
-        #zine-book {
-            position: absolute; 
-            top: 50%; left: 50%; 
-            transform: translate(-50%, -50%);
-            width: 250px;  
-            height: 380px; 
-            margin: 0 auto; overflow: hidden;
-            box-shadow: 0px 5px 25px rgba(0,0,0,0.8); 
+        /* CONTENEDOR INTERNO DEL FLIPBOOK */
+        .contenedor-zine {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            height: 100%;
         }
 
-        .page-zine {
-            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            background-size: contain; 
-            background-position: center; background-repeat: no-repeat; 
-            background-color: transparent;
-            opacity: 0; transform: translateX(50px); transition: opacity 0.5s ease, transform 0.5s ease; pointer-events: none; 
+        /* ESTILOS DE LAS PÁGINAS DEL FLIPBOOK */
+        .page {
+            background-color: white;
+            box-shadow: inset 0 0 20px rgba(0,0,0,0.1); 
+            overflow: hidden;
+            position: relative;
         }
-        .page-zine.active { opacity: 1; transform: translateX(0); pointer-events: auto; z-index: 60; }
 
-        /* EL SOL Y YOUTUBE */
-        #palabra-sol {
-            position: absolute; width: 80px; height: 80px; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 100; cursor: pointer; 
+        .page img.bg-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover; 
+            pointer-events: none; 
+            position: absolute;
+            top: 0; left: 0;
+            z-index: 1;
         }
-        #youtube-container {
-            position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
-            width: 220px; 
-            height: 130px; 
-            z-index: 110; display: none; box-shadow: 0px 0px 30px rgba(255, 200, 100, 0.4); border-radius: 10px; overflow: hidden; background: black;
-        }
-        iframe { width: 100%; height: 100%; border: none; pointer-events: auto; }
 
         /* PÁGINA FINAL 12 */
         #page-12-content {
             width: 100%; height: 100%; display: flex; flex-direction: column; justify-content: center; align-items: center; 
-            z-index: 100; position: relative; 
+            z-index: 10; position: relative; 
         }
         .final-p { 
-            font-family: 'FuenteTati', cursive; /* Misma cursiva acá */
+            font-family: 'FuenteTati', cursive; 
             font-size: 2.5rem; 
             text-align: center; 
             margin-bottom: 20px; 
             text-shadow: 0px 2px 5px rgba(0,0,0,0.8);
+            color: #dc9cad;
         }
         
         #btn-volver {
@@ -175,7 +187,17 @@
 <body>
 
     <div id="fondo-body"></div>
-    <div id="pantalla-negra"><p>Извините, это не для тебя</p></div>
+
+    <div id="pantalla-negra">
+        <p>Извините, это не для тебя</p>
+        
+        <div class="flecha-volver" onclick="volverInicio()">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#dc9cad" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M19 12H5"></path>
+                <polyline points="12 19 5 12 12 5"></polyline>
+            </svg>
+        </div>
+    </div>
 
     <div id="landing-page">
         <div id="centro-landing">
@@ -192,43 +214,40 @@
     </div>
 
     <div id="zine-wrapper">
-        <div id="clic-izq" class="zona-clic" onclick="paginaAnterior()"></div>
-        <div id="clic-der" class="zona-clic" onclick="paginaSiguiente()"></div>
-
-        <div id="zine-book">
-            <div class="page-zine active" id="p1" style="background-image: url('zine-imagenes/portada.png');"></div>
-            <div class="page-zine" id="p2" style="background-image: url('zine-imagenes/portada.png');"></div>
-            <div class="page-zine" id="p3" style="background-image: url('zine-imagenes/p3.png');"></div>
-            <div class="page-zine" id="p4" style="background-image: url('zine-imagenes/p4.png');"></div>
-            <div class="page-zine" id="p5" style="background-image: url('zine-imagenes/p5.png');"></div>
-            <div class="page-zine" id="p6" style="background-image: url('zine-imagenes/p6.png');"></div>
-            <div class="page-zine" id="p7" style="background-image: url('zine-imagenes/p7.png');"></div>
-            <div class="page-zine" id="p8" style="background-image: url('zine-imagenes/p8.png');"></div>
-            
-            <div class="page-zine" id="p9" style="background-image: url('zine-imagenes/p9.png');">
-                <div id="palabra-sol" onclick="abrirVideo(event)"></div>
-                <div id="youtube-container">
-                    <iframe id="video-iframe" src="https://www.youtube.com/embed/TU_ID_DE_VIDEO?enablejsapi=1&loop=1&playlist=TU_ID_DE_VIDEO&controls=0"></iframe>
-                </div>
-            </div>
-
-            <div class="page-zine" id="p10" style="background-image: url('zine-imagenes/p10.png');"></div>
-            <div class="page-zine" id="p11" style="background-image: url('zine-imagenes/p11.png');"></div>
-            
-            <div class="page-zine" id="p12" style="background-image: url('zine-imagenes/p12.png');">
-                <div id="page-12-content">
-                    <p class="final-p">¿Querés ser mi novia?</p>
-                    <div style="display: flex; gap: 15px;">
-                        <button onclick="aceptarPropuesta(event)">Sí</button>
-                        <button onclick="aceptarPropuesta(event)">Obvio</button>
+        <div class="contenedor-zine">
+            <div id="flipbook">
+                <div class="page"><img src="zine-imagenes/portada.png" class="bg-img"></div>
+                <div class="page"><img src="zine-imagenes/p2.png" class="bg-img"></div>
+                <div class="page"><img src="zine-imagenes/p3.png" class="bg-img"></div>
+                <div class="page"><img src="zine-imagenes/p4.png" class="bg-img"></div>
+                <div class="page"><img src="zine-imagenes/p5.png" class="bg-img"></div>
+                <div class="page"><img src="zine-imagenes/p6.png" class="bg-img"></div>
+                <div class="page"><img src="zine-imagenes/p7.png" class="bg-img"></div>
+                <div class="page"><img src="zine-imagenes/p8.png" class="bg-img"></div>
+                <div class="page"><img src="zine-imagenes/p9.png" class="bg-img"></div>
+                <div class="page"><img src="zine-imagenes/p10.png" class="bg-img"></div>
+                <div class="page"><img src="zine-imagenes/p11.png" class="bg-img"></div>
+                
+                <div class="page" id="page-12">
+                    <img src="zine-imagenes/p12.png" class="bg-img">
+                    <div id="page-12-content">
+                        <p class="final-p">¿Querés ser mi novia?</p>
+                        <div style="display: flex; gap: 15px;">
+                            <button onclick="aceptarPropuesta(event)">Sí</button>
+                            <button onclick="aceptarPropuesta(event)">Obvio</button>
+                        </div>
+                        <img src="img/boton-volver.png" id="btn-volver" onclick="reiniciarTodo(event)" alt="Volver al inicio">
                     </div>
-                    <img src="img/boton-volver.png" id="btn-volver" onclick="reiniciarTodo(event)" alt="Volver al inicio">
                 </div>
             </div>
         </div>
     </div>
 
+    <script src="https://cdn.jsdelivr.net/npm/page-flip/dist/js/page-flip.browser.min.js"></script>
+
     <script>
+        let myFlipBook = null;
+
         function iniciarTimersLanding() {
             document.getElementById('pregunta-texto').style.opacity = '0';
             document.getElementById('pregunta-texto').style.transform = 'translateY(20px)';
@@ -256,52 +275,36 @@
             document.getElementById('pantalla-negra').style.display = 'flex';
         }
 
+        // NUEVA FUNCIÓN: Volver del rechazo
+        function volverInicio() {
+            document.getElementById('pantalla-negra').style.display = 'none';
+            document.getElementById('fondo-body').style.display = 'block';
+            document.getElementById('landing-page').style.display = 'block';
+            iniciarTimersLanding(); // Reinicia la animación de los 4 y 6 segundos
+        }
+
         function empezarZine() {
             document.getElementById('landing-page').style.display = 'none';
             document.getElementById('fondo-body').style.display = 'none';
-            document.getElementById('zine-wrapper').style.display = 'block';
-        }
+            document.getElementById('zine-wrapper').style.display = 'flex';
 
-        let paginaActual = 1;
-        const totalPaginas = 12;
-
-        function paginaSiguiente() {
-            if (paginaActual < totalPaginas) {
-                document.getElementById('p' + paginaActual).classList.remove('active');
-                paginaActual++;
-                document.getElementById('p' + paginaActual).classList.add('active');
+            // Inicializa el libro solo la primera vez que entra
+            if (!myFlipBook) {
+                myFlipBook = new St.PageFlip(document.getElementById('flipbook'), {
+                    width: 1252,          
+                    height: 1783,         
+                    size: "stretch",     
+                    minWidth: 315,
+                    maxWidth: 1000,
+                    minHeight: 420,
+                    maxHeight: 1350,
+                    maxShadowOpacity: 0.5, 
+                    showCover: true,     
+                    mobileScrollSupport: false 
+                });
+                myFlipBook.loadFromHTML(document.querySelectorAll('.page'));
             }
         }
-
-        function paginaAnterior() {
-            if (paginaActual > 1) {
-                document.getElementById('p' + paginaActual).classList.remove('active');
-                paginaActual--;
-                document.getElementById('p' + paginaActual).classList.add('active');
-            }
-        }
-
-        function abrirVideo(event) {
-            event.stopPropagation(); 
-            document.getElementById('youtube-container').style.display = 'block';
-        }
-
-        document.addEventListener('click', function(event) {
-            let contenedorVideo = document.getElementById('youtube-container');
-            let palabraSol = document.getElementById('palabra-sol');
-
-            if (contenedorVideo && contenedorVideo.style.display === 'block' && 
-                !contenedorVideo.contains(event.target) && 
-                event.target !== palabraSol) {
-                
-                contenedorVideo.style.display = 'none';
-                let iframe = document.getElementById('video-iframe');
-                if(iframe) {
-                    let src = iframe.src;
-                    iframe.src = src; 
-                }
-            }
-        });
 
         function aceptarPropuesta(event) {
             event.stopPropagation(); 
@@ -323,12 +326,13 @@
 
             document.getElementById('zine-wrapper').style.display = 'none';
             
-            document.getElementById('p' + paginaActual).classList.remove('active');
-            paginaActual = 1;
-            document.getElementById('p1').classList.add('active');
+            // Si el libro está cargado, lo volvemos a la página 0 (la portada)
+            if (myFlipBook) {
+                myFlipBook.turnToPage(0);
+            }
 
             document.getElementById('fondo-body').style.display = 'block';
-            document.getElementById('landing-page').style.display = 'flex';
+            document.getElementById('landing-page').style.display = 'block';
 
             iniciarTimersLanding();
         }
