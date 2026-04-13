@@ -74,10 +74,6 @@
             width: 100%; height: 100%;
         }
         
-        #zine-fondo {
-            position: absolute; width: 250px; height: auto;
-            opacity: 0.5; filter: blur(5px); z-index: 2;
-        }
         #nombre-tatiana {
             position: absolute; width: 90%; max-width: 680px; z-index: 3; 
         }
@@ -96,6 +92,7 @@
             margin-bottom: 12px;
             opacity: 0; transform: translateY(12px);
             transition: opacity 1s ease, transform 1s ease; 
+            text-shadow: 0px 1px 3px rgba(0,0,0,0.8);
             letter-spacing: 1px;
         }
 
@@ -126,22 +123,22 @@
         /* CONTENEDOR GENERAL DEL MODO LECTURA DEL ZINE */
         #zine-wrapper {
             display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            /* ACÁ CARGA LA NUEVA IMAGEN DE FONDO PARA CUANDO LEE EL ZINE */
             background-image: url('img/fondo-lectura.jpg');
             background-size: cover; background-position: center;
-            background-color: #070707; /* Color de respaldo si no hay imagen */
+            background-color: #070707; 
             z-index: 50;
             justify-content: center;
             align-items: center;
         }
 
-        /* CONTENEDOR INTERNO DEL FLIPBOOK */
+        /* CONTENEDOR INTERNO DEL FLIPBOOK (Acá le damos el espacio para que respire) */
         .contenedor-zine {
             display: flex;
             justify-content: center;
             align-items: center;
             width: 100%;
             height: 100%;
+            padding: 5vh 5vw; /* Esto asegura que siempre haya espacio arriba, abajo y a los costados */
         }
 
         /* ESTILOS DE LAS PÁGINAS DEL FLIPBOOK */
@@ -189,7 +186,6 @@
 
     <div id="pantalla-negra">
         <p>Извините, это не для тебя</p>
-        
         <div class="flecha-volver" onclick="volverInicio()">
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#dc9cad" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                 <path d="M19 12H5"></path>
@@ -274,12 +270,11 @@
             document.getElementById('pantalla-negra').style.display = 'flex';
         }
 
-        // NUEVA FUNCIÓN: Volver del rechazo
         function volverInicio() {
             document.getElementById('pantalla-negra').style.display = 'none';
             document.getElementById('fondo-body').style.display = 'block';
             document.getElementById('landing-page').style.display = 'block';
-            iniciarTimersLanding(); // Reinicia la animación de los 4 y 6 segundos
+            iniciarTimersLanding(); 
         }
 
         function empezarZine() {
@@ -287,12 +282,11 @@
             document.getElementById('fondo-body').style.display = 'none';
             document.getElementById('zine-wrapper').style.display = 'flex';
 
-            // Inicializa el libro solo la primera vez que entra
             if (!myFlipBook) {
                 myFlipBook = new St.PageFlip(document.getElementById('flipbook'), {
-                    width: 1252,          
-                    height: 1783,         
-                    size: "stretch",     
+                    width: 500,          /* Tamaño base más chico */
+                    height: 700,         
+                    size: "fit",         /* ESTA ES LA MAGIA: Ajusta manteniendo las proporciones y márgenes */
                     minWidth: 315,
                     maxWidth: 1000,
                     minHeight: 420,
@@ -325,7 +319,6 @@
 
             document.getElementById('zine-wrapper').style.display = 'none';
             
-            // Si el libro está cargado, lo volvemos a la página 0 (la portada)
             if (myFlipBook) {
                 myFlipBook.turnToPage(0);
             }
