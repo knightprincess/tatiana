@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Para Tati</title>
+    <title>For Tati <3</title>
     <style>
         /* CARGAMOS TU FUENTE DESCARGADA */
         @font-face {
@@ -29,7 +29,7 @@
             z-index: 1;
         }
 
-        /* PANTALLA NEGRA RECHAZO */
+        /* PANTALLA NEGRA RECHAZO (Ruso) */
         #pantalla-negra {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background-image: url('img/bg02.jpg'); 
@@ -77,17 +77,16 @@
         #botones-landing { opacity: 0; pointer-events: none; transition: opacity 1s ease; display: flex; gap: 20px; }
         
         button {
-            background: rgba(255, 255, 255, 0.2); backdrop-filter: blur(5px); -webkit-backdrop-filter: blur(5px); 
-            color: #dc9cad; border: 1px solid rgba(255, 255, 255, 0.6); 
+            background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(5px); -webkit-backdrop-filter: blur(5px); 
+            color: #dc9cad; border: 1px solid rgba(255, 255, 255, 0.3); 
             padding: 8px 25px; font-family: 'FuenteTati'; cursor: pointer;
             border-radius: 5px; transition: all 0.3s ease; font-size: 0.8rem; letter-spacing: 1px;
         }
         button:hover { background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255, 255, 255, 1); }
 
-        /* ZINE WRAPPER (EL FONDO DE LECTURA) */
+        /* === MODO LECTURA ZINE === */
         #zine-wrapper {
-            display: none; /* Inicialmente oculto */
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background-image: url('img/fondo-lectura.jpg');
             background-size: cover; background-position: center;
             background-color: #070707; z-index: 50;
@@ -97,15 +96,21 @@
         .contenedor-zine {
             display: flex; justify-content: center; align-items: center;
             width: 100%; height: 100%;
-            padding: 5vh 5vw; /* Esto asegura que no toque los bordes de la pantalla */
+            padding: 10vh 10vw; /* Más aire para que se vea mucho más chico */
         }
 
-        /* LAS PÁGINAS DEL FLIPBOOK */
+        /* LAS PÁGINAS DEL FLIPBOOK (TAMAÑO FIJO CHICO) */
+        #flipbook {
+            width: 350px; /* Ancho fijo chico */
+            height: 500px; /* Alto proporcional */
+            box-shadow: 0px 5px 25px rgba(0,0,0,0.8);
+        }
+
         .page {
             background-color: white;
             box-shadow: inset 0 0 20px rgba(0,0,0,0.1); 
             overflow: hidden;
-            position: relative; /* Clave para que los textos queden adentro */
+            position: relative;
         }
 
         .page img.bg-img {
@@ -113,22 +118,45 @@
             display: block;
         }
 
-        /* CONTENIDO DE LA PÁGINA 12 (PREGUNTA Y BOTONES) */
-        #page-12-content {
-            position: absolute; top: 0; left: 0; width: 100%; height: 100%; 
-            display: flex; flex-direction: column; justify-content: center; align-items: center; 
-            z-index: 10;
+        /* === SECCIÓN DE DIÁLOGOS Y PREGUNTA FINAL === */
+        #final-section {
+            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background-image: url('img/bg02.jpg');
+            background-size: cover; background-position: center;
+            z-index: 100;
         }
 
-        .final-p { 
-            font-family: 'FuenteTati', cursive; font-size: 2.5rem; text-align: center; 
+        .transicion-dialogo, #final-proposal {
+            display: none; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            flex-direction: column; justify-content: center; align-items: center;
+            text-align: center; padding: 20px;
+        }
+
+        .texto-dialogo {
+            font-family: 'FuenteTati', cursive; font-size: 1.5rem; color: #dc9cad;
+            margin-bottom: 30px; text-shadow: 0px 2px 5px rgba(0,0,0,0.8);
+            letter-spacing: 1px;
+        }
+
+        /* Flecha para los diálogos (derecha) */
+        .flecha-dialogo {
+            cursor: pointer; padding: 10px; border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(5px);
+            border: 1px solid rgba(255, 255, 255, 0.3); transition: all 0.3s ease;
+        }
+        .flecha-dialogo:hover { background: rgba(255, 255, 255, 0.2); transform: scale(1.1); }
+
+        /* Pregunta Final */
+        .final-p {
+            font-family: 'FuenteTati', cursive; font-size: 2.5rem; text-align: center;
             margin-bottom: 20px; text-shadow: 0px 2px 5px rgba(0,0,0,0.8); color: #dc9cad;
         }
-        
+
         #btn-volver {
             width: 40px; margin-top: 20px; cursor: pointer;
             opacity: 0; pointer-events: none; transition: opacity 1.5s ease;
         }
+
     </style>
 </head>
 <body>
@@ -161,7 +189,7 @@
 
     <div id="zine-wrapper">
         <div class="contenedor-zine">
-            <div id="flipbook">
+            <div id="flipbook" onclick="manejadorClicZine(event)">
                 <div class="page"><img src="zine-imagenes/portada.png" class="bg-img"></div>
                 <div class="page"><img src="zine-imagenes/p2.png" class="bg-img"></div>
                 <div class="page"><img src="zine-imagenes/p3.png" class="bg-img"></div>
@@ -173,19 +201,39 @@
                 <div class="page"><img src="zine-imagenes/p9.png" class="bg-img"></div>
                 <div class="page"><img src="zine-imagenes/p10.png" class="bg-img"></div>
                 <div class="page"><img src="zine-imagenes/p11.png" class="bg-img"></div>
-                
-                <div class="page" id="page-12">
-                    <img src="zine-imagenes/p12.png" class="bg-img">
-                    <div id="page-12-content">
-                        <p class="final-p">¿Querés ser mi novia?</p>
-                        <div style="display: flex; gap: 15px;">
-                            <button onclick="aceptarPropuesta(event)">Sí</button>
-                            <button onclick="aceptarPropuesta(event)">Obvio</button>
-                        </div>
-                        <img src="img/boton-volver.png" id="btn-volver" onclick="reiniciarTodo(event)" alt="Volver al inicio">
-                    </div>
-                </div>
+                <div class="page"><img src="zine-imagenes/p12.png" class="bg-img"></div>
             </div>
+        </div>
+    </div>
+
+    <div id="final-section">
+        <div id="dialog-1" class="transicion-dialogo">
+            <p class="texto-dialogo">despues de todo esto que viste</p>
+            <div class="flecha-dialogo" onclick="mostrarDialogo2()">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#dc9cad" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M5 12H19"></path>
+                    <polyline points="12 5 19 12 12 19"></polyline>
+                </svg>
+            </div>
+        </div>
+
+        <div id="dialog-2" class="transicion-dialogo">
+            <p class="texto-dialogo">solo queda una pregunta</p>
+            <div class="flecha-dialogo" onclick="mostrarPropuestaFinal()">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#dc9cad" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M5 12H19"></path>
+                    <polyline points="12 5 19 12 12 19"></polyline>
+                </svg>
+            </div>
+        </div>
+
+        <div id="final-proposal">
+            <p class="final-p">¿Querés ser mi novia?</p>
+            <div style="display: flex; gap: 15px;">
+                <button onclick="aceptarPropuesta(event)">Sí</button>
+                <button onclick="aceptarPropuesta(event)">Obvio</button>
+            </div>
+            <img src="img/boton-volver.png" id="btn-volver" onclick="reiniciarTodo(event)" alt="Volver al inicio">
         </div>
     </div>
 
@@ -194,6 +242,7 @@
     <script>
         let myFlipBook = null;
 
+        // Timers iniciales de la landing (4 y 6 segundos)
         function iniciarTimersLanding() {
             document.getElementById('pregunta-texto').style.opacity = '0';
             document.getElementById('pregunta-texto').style.transform = 'translateY(20px)';
@@ -211,16 +260,16 @@
             }, 6000);
         }
 
-        window.onload = function() {
-            iniciarTimersLanding();
-        };
+        window.onload = iniciarTimersLanding;
 
+        // Opción NO (Ruso)
         function rechazar() {
             document.getElementById('landing-page').style.display = 'none';
             document.getElementById('fondo-body').style.display = 'none';
             document.getElementById('pantalla-negra').style.display = 'flex';
         }
 
+        // Volver del rechazo
         function volverInicio() {
             document.getElementById('pantalla-negra').style.display = 'none';
             document.getElementById('fondo-body').style.display = 'block';
@@ -228,36 +277,80 @@
             iniciarTimersLanding(); 
         }
 
+        // Opción SÍ -> Inicia el Zine chico y single-page
         function empezarZine() {
-            // 1. Mostramos el contenedor de fondo para que el código le reconozca el tamaño
             document.getElementById('landing-page').style.display = 'none';
             document.getElementById('fondo-body').style.display = 'none';
             document.getElementById('zine-wrapper').style.display = 'flex';
 
-            // 2. Le damos una pausa invisible de 50 milisegundos antes de construir el libro
+            // Pausa invisible de 50ms para evitar cuelgues de la biblioteca
             setTimeout(() => {
                 if (!myFlipBook) {
                     myFlipBook = new St.PageFlip(document.getElementById('flipbook'), {
-                        width: 1252,          
-                        height: 1783,         
-                        size: "stretch", // Volvemos al que te funcionaba
+                        width: 350,          /* Ancho fijo chico */
+                        height: 500,         /* Alto fijo chico */
+                        size: "stretch",     /* Mantenemos el que te funcionaba */
                         minWidth: 300,
-                        maxWidth: 600,   // Limitamos el ancho para que respire
+                        maxWidth: 350,       /* No dejamos que crezca más */
                         minHeight: 420,
-                        maxHeight: 850,  // Limitamos el alto para que respire
+                        maxHeight: 500,      /* No dejamos que crezca más */
                         maxShadowOpacity: 0.5, 
-                        showCover: true,     
-                        mobileScrollSupport: false 
+                        showCover: true,     /* Portada sola, páginas internas single */
+                        mobileScrollSupport: false,
+                        // ESTO ES CLAVE: UNA SOLA PÁGINA A LA VEZ
+                        display: 'single' 
                     });
                     myFlipBook.loadFromHTML(document.querySelectorAll('.page'));
                 }
             }, 50);
         }
 
+        // NUEVA NAVEGACIÓN: Clic derecho/izquierdo sobre el libro
+        function manejadorClicZine(event) {
+            // Detenemos cualquier evento interno de la biblioteca para controlar nosotros
+            event.stopPropagation();
+
+            let rect = document.getElementById('flipbook').getBoundingClientRect();
+            let x = event.clientX - rect.left; // posición x adentro del libro
+
+            // Si clic en la mitad derecha -> Siguiente
+            if (x > rect.width / 2) {
+                // Si ya estamos en la última página (p12), y clica siguiente, vamos a los diálogos
+                if (myFlipBook.getCurrentPageIndex() === myFlipBook.getPageCount() - 1) {
+                    document.getElementById('zine-wrapper').style.display = 'none';
+                    document.getElementById('final-section').style.display = 'block';
+                    document.getElementById('dialog-1').style.display = 'flex';
+                } else {
+                    myFlipBook.flipNext();
+                }
+            } 
+            // Si clic en la mitad izquierda -> Anterior
+            else {
+                if (myFlipBook.getCurrentPageIndex() > 0) {
+                    myFlipBook.flipPrev();
+                }
+            }
+        }
+
+        // --- FUNCIONES DE TRANSICIÓN NARRATIVA ---
+
+        function mostrarDialogo2() {
+            document.getElementById('dialog-1').style.display = 'none';
+            document.getElementById('dialog-2').style.display = 'flex';
+        }
+
+        function mostrarPropuestaFinal() {
+            document.getElementById('dialog-2').style.display = 'none';
+            document.getElementById('final-proposal').style.display = 'flex';
+        }
+
+        // --- FUNCIONES DEL FINAL (SÍ O SÍ) ---
+
         function aceptarPropuesta(event) {
             event.stopPropagation(); 
             alert('Llamame ya mismo.'); 
 
+            // Aparece el botón secreto "volver" a los 6 segundos de alertar
             setTimeout(() => {
                 let btnVolver = document.getElementById('btn-volver');
                 btnVolver.style.opacity = '1';
@@ -265,6 +358,7 @@
             }, 6000);
         }
 
+        // Reiniciar todo a la landing
         function reiniciarTodo(event) {
             event.stopPropagation();
             
@@ -272,8 +366,13 @@
             btnVolver.style.opacity = '0';
             btnVolver.style.pointerEvents = 'none';
 
-            document.getElementById('zine-wrapper').style.display = 'none';
+            // Ocultamos todas las secciones finales
+            document.getElementById('final-section').style.display = 'none';
+            document.getElementById('final-proposal').style.display = 'none';
+            document.getElementById('dialog-1').style.display = 'none';
+            document.getElementById('dialog-2').style.display = 'none';
             
+            // Volvemos el libro a la portada si existe
             if (myFlipBook) {
                 myFlipBook.turnToPage(0);
             }
