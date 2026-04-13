@@ -228,10 +228,10 @@
         </div>
 
         <div id="final-proposal">
-            <p class="final-p">¿Querés ser mi novia?</p>
+            <p class="final-p">Do you want to be my girlfriend?</p>
             <div style="display: flex; gap: 15px;">
-                <button onclick="aceptarPropuesta(event)">Sí</button>
-                <button onclick="aceptarPropuesta(event)">Obvio</button>
+                <button onclick="aceptarPropuesta(event)">Yes</button>
+                <button onclick="aceptarPropuesta(event)">No</button>
             </div>
             <img src="img/boton-volver.png" id="btn-volver" onclick="reiniciarTodo(event)" alt="Volver al inicio">
         </div>
@@ -252,12 +252,12 @@
             setTimeout(function() {
                 document.getElementById('pregunta-texto').style.opacity = '1';
                 document.getElementById('pregunta-texto').style.transform = 'translateY(0)';
-            }, 4000);
+            }, 2000);
 
             setTimeout(function() {
                 document.getElementById('botones-landing').style.opacity = '1';
                 document.getElementById('botones-landing').style.pointerEvents = 'auto';
-            }, 6000);
+            }, 4000);
         }
 
         window.onload = iniciarTimersLanding;
