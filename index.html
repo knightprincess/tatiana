@@ -1,12 +1,3 @@
-Ailén, I completely understand. That discrepancy between the container and the actual pages on a laptop happens because desktop screens and phone screens have completely different proportions (one is wide, the other is tall). When the library tries to calculate the height, it can leave those ugly gaps if the shadow is attached to the wrong invisible box.
-
-I have fixed this by removing the shadow from the "invisible container" and forcing it directly onto the exact edges of the pages (.st-page-flip). This way, the shadow strictly hugs the zine no matter what size the screen is—zero gaps, zero weird empty spaces.
-
-I also added the logic for the "No" button. Since your tone with her is very confident, intense, and romantic, I made the "No" response playfully assertive: "Nice try. You know the real answer. Call me right now." (You can easily change this text in the code if you want something different!).
-
-Here is the fully corrected code. Replace your current file with this one:
-
-HTML
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -363,7 +354,7 @@ Will you be my girlfriend?</p>
             if (isYes) {
                 alert('I love you, talk to me now baby'); 
             } else {
-                alert('Nice try. You know the real answer. Call me right now.'); 
+                alert('Nice try love'); 
             }
 
             setTimeout(() => {
