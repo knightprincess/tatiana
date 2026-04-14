@@ -96,14 +96,16 @@
         .contenedor-zine {
             display: flex; justify-content: center; align-items: center;
             width: 100%; height: 100%;
-            padding: 10vh 10vw; /* Más aire para que se vea mucho más chico */
+            padding: 5vh 5vw; 
         }
 
-        /* LAS PÁGINAS DEL FLIPBOOK (TAMAÑO FIJO CHICO) */
+        /* EL LIBRO CORREGIDO PARA CELULARES */
         #flipbook {
-            width: 350px; /* Ancho fijo chico */
-            height: 500px; /* Alto proporcional */
+            width: 100%; 
+            max-width: 350px; /* Ancho máximo en compu */
+            aspect-ratio: 350 / 500; /* Mantiene la proporción exacta siempre */
             box-shadow: 0px 5px 25px rgba(0,0,0,0.2);
+            margin: 0 auto;
         }
 
         .page {
@@ -133,9 +135,15 @@
         }
 
         .texto-dialogo {
-            font-family: 'FuenteTati', cursive; font-size: 1.1rem; color: #14281D /* #dc9cad*/ ;
+            font-family: 'FuenteTati', cursive; font-size: 1.1rem; color: #dc9cad;
             margin-bottom: 30px; text-shadow: 0px 2px 5px rgba(0,0,0,0.2);
             letter-spacing: 1px;
+            
+            /* CENTRADO DE TEXTO EN BLOQUE */
+            max-width: 320px;
+            line-height: 1.6;
+            text-align: center;
+            margin-left: auto; margin-right: auto;
         }
 
         /* Flecha para los diálogos (derecha) */
@@ -149,7 +157,13 @@
         /* Pregunta Final */
         .final-p {
             font-family: 'FuenteTati', cursive; font-size: 1.1rem; text-align: center;
-            margin-bottom: 20px; text-shadow: 0px 2px 5px rgba(0,0,0,0.2); color: #14281D;
+            margin-bottom: 20px; text-shadow: 0px 2px 5px rgba(0,0,0,0.2); color: #dc9cad;
+            
+            /* CENTRADO DE TEXTO EN BLOQUE */
+            max-width: 320px;
+            line-height: 1.6;
+            text-align: center;
+            margin-left: auto; margin-right: auto;
         }
 
         #btn-volver {
@@ -245,7 +259,6 @@ Will you be my girlfriend?</p>
     <script>
         let myFlipBook = null;
 
-        // Timers iniciales de la landing (4 y 6 segundos)
         function iniciarTimersLanding() {
             document.getElementById('pregunta-texto').style.opacity = '0';
             document.getElementById('pregunta-texto').style.transform = 'translateY(20px)';
@@ -265,14 +278,12 @@ Will you be my girlfriend?</p>
 
         window.onload = iniciarTimersLanding;
 
-        // Opción NO (Ruso)
         function rechazar() {
             document.getElementById('landing-page').style.display = 'none';
             document.getElementById('fondo-body').style.display = 'none';
             document.getElementById('pantalla-negra').style.display = 'flex';
         }
 
-        // Volver del rechazo
         function volverInicio() {
             document.getElementById('pantalla-negra').style.display = 'none';
             document.getElementById('fondo-body').style.display = 'block';
@@ -280,27 +291,24 @@ Will you be my girlfriend?</p>
             iniciarTimersLanding(); 
         }
 
-        // Opción SÍ -> Inicia el Zine chico y single-page
         function empezarZine() {
             document.getElementById('landing-page').style.display = 'none';
             document.getElementById('fondo-body').style.display = 'none';
             document.getElementById('zine-wrapper').style.display = 'flex';
 
-            // Pausa invisible de 50ms para evitar cuelgues de la biblioteca
             setTimeout(() => {
                 if (!myFlipBook) {
                     myFlipBook = new St.PageFlip(document.getElementById('flipbook'), {
-                        width: 350,          /* Ancho fijo chico */
-                        height: 500,         /* Alto fijo chico */
-                        size: "stretch",     /* Mantenemos el que te funcionaba */
-                        minWidth: 300,
-                        maxWidth: 350,       /* No dejamos que crezca más */
-                        minHeight: 420,
-                        maxHeight: 500,      /* No dejamos que crezca más */
+                        width: 350,          
+                        height: 500,         
+                        size: "stretch",     
+                        minWidth: 200,       /* Reducido para celulares muy chicos */
+                        maxWidth: 350,       
+                        minHeight: 285,      /* Proporcional a los 200 de ancho */
+                        maxHeight: 500,      
                         maxShadowOpacity: 0.5, 
-                        showCover: true,     /* Portada sola, páginas internas single */
+                        showCover: true,     
                         mobileScrollSupport: false,
-                        // ESTO ES CLAVE: UNA SOLA PÁGINA A LA VEZ
                         display: 'single' 
                     });
                     myFlipBook.loadFromHTML(document.querySelectorAll('.page'));
@@ -308,17 +316,13 @@ Will you be my girlfriend?</p>
             }, 50);
         }
 
-        // NUEVA NAVEGACIÓN: Clic derecho/izquierdo sobre el libro
         function manejadorClicZine(event) {
-            // Detenemos cualquier evento interno de la biblioteca para controlar nosotros
             event.stopPropagation();
 
             let rect = document.getElementById('flipbook').getBoundingClientRect();
-            let x = event.clientX - rect.left; // posición x adentro del libro
+            let x = event.clientX - rect.left; 
 
-            // Si clic en la mitad derecha -> Siguiente
             if (x > rect.width / 2) {
-                // Si ya estamos en la última página (p12), y clica siguiente, vamos a los diálogos
                 if (myFlipBook.getCurrentPageIndex() === myFlipBook.getPageCount() - 1) {
                     document.getElementById('zine-wrapper').style.display = 'none';
                     document.getElementById('final-section').style.display = 'block';
@@ -327,15 +331,12 @@ Will you be my girlfriend?</p>
                     myFlipBook.flipNext();
                 }
             } 
-            // Si clic en la mitad izquierda -> Anterior
             else {
                 if (myFlipBook.getCurrentPageIndex() > 0) {
                     myFlipBook.flipPrev();
                 }
             }
         }
-
-        // --- FUNCIONES DE TRANSICIÓN NARRATIVA ---
 
         function mostrarDialogo2() {
             document.getElementById('dialog-1').style.display = 'none';
@@ -347,13 +348,10 @@ Will you be my girlfriend?</p>
             document.getElementById('final-proposal').style.display = 'flex';
         }
 
-        // --- FUNCIONES DEL FINAL (SÍ O SÍ) ---
-
         function aceptarPropuesta(event) {
             event.stopPropagation(); 
             alert('Llamame ya mismo.'); 
 
-            // Aparece el botón secreto "volver" a los 6 segundos de alertar
             setTimeout(() => {
                 let btnVolver = document.getElementById('btn-volver');
                 btnVolver.style.opacity = '1';
@@ -361,7 +359,6 @@ Will you be my girlfriend?</p>
             }, 6000);
         }
 
-        // Reiniciar todo a la landing
         function reiniciarTodo(event) {
             event.stopPropagation();
             
@@ -369,13 +366,11 @@ Will you be my girlfriend?</p>
             btnVolver.style.opacity = '0';
             btnVolver.style.pointerEvents = 'none';
 
-            // Ocultamos todas las secciones finales
             document.getElementById('final-section').style.display = 'none';
             document.getElementById('final-proposal').style.display = 'none';
             document.getElementById('dialog-1').style.display = 'none';
             document.getElementById('dialog-2').style.display = 'none';
             
-            // Volvemos el libro a la portada si existe
             if (myFlipBook) {
                 myFlipBook.turnToPage(0);
             }
