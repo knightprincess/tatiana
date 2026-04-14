@@ -92,22 +92,26 @@
             background-color: #070707; z-index: 50;
         }
 
-        /* CONTENEDOR PARA CENTRAR Y DARLE AIRE AL ZINE */
         .contenedor-zine {
             display: flex; justify-content: center; align-items: center;
             width: 100%; height: 100%;
-            padding: 10vh 10vw; /* Más aire para que se vea mucho más chico */
+            padding: 10vh 10vw; 
         }
 
-        /* LAS PÁGINAS DEL FLIPBOOK (TAMAÑO FIJO CHICO) */
+        /* ELIMINAMOS EL TAMAÑO FIJO Y LA SOMBRA DE ACÁ PARA QUE NO QUEDEN HUECOS BLANCOS */
         #flipbook {
-            width: 350px; /* Ancho fijo chico */
-            height: 500px; /* Alto proporcional */
-            box-shadow: 0px 5px 25px rgba(0,0,0,0.2);
+            /* Dejamos que el JS calcule el tamaño exacto, no forzamos nada acá */
+        }
+
+        /* ESTA ES LA MAGIA: Le ponemos la sombra al contenedor interno exacto que crea la biblioteca */
+        .st-page-flip {
+            box-shadow: 0px 5px 25px rgba(0,0,0,0.2) !important;
+            margin: 0 auto;
         }
 
         .page {
-            background-color: white;
+            /* Cambiamos el fondo blanco por uno oscuro por si acaso sobra 1 milímetro, así no se nota */
+            background-color: #050505; 
             box-shadow: inset 0 0 20px rgba(0,0,0,0.1); 
             overflow: hidden;
             position: relative;
@@ -133,9 +137,11 @@
         }
 
         .texto-dialogo {
-            font-family: 'FuenteTati', cursive; font-size: 1.2rem; color: #4b543b;  /* original #dc9cad */
-            margin-bottom: 30px; text-shadow: 0px 2px 5px rgba(0,0,0,0.1);
+            font-family: 'FuenteTati', cursive; font-size: 1.2rem; color: #4b543b; 
+            margin-bottom: 30px; text-shadow: 0px 2px 5px rgba(255,255,255,0.1); /* Sombra clarita para contraste */
             letter-spacing: 1px;
+            max-width: 85%; /* Evita que choque con los bordes */
+            line-height: 1.4;
         }
 
         /* Flecha para los diálogos (derecha) */
@@ -150,6 +156,7 @@
         .final-p {
             font-family: 'FuenteTati', cursive; font-size: 1.2rem; text-align: center;
             margin-bottom: 20px; text-shadow: 0px 2px 5px rgba(0,0,0,0.8); color: #dc9cad;
+            max-width: 85%;
         }
 
         #btn-volver {
@@ -208,8 +215,7 @@
 
     <div id="final-section">
         <div id="dialog-1" class="transicion-dialogo">
-            <p class="texto-dialogo">I am choosing you, and I am choosing to stay. 
-    To make it a steady rhythm for both of us to clash and dissolve together, to grow, to love.</p>
+            <p class="texto-dialogo">I am choosing you, and I am choosing to stay. To make it a steady rhythm for both of us to clash and dissolve together, to grow, to love.</p>
             <div class="flecha-dialogo" onclick="mostrarDialogo2()">
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#dc9cad" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <path d="M5 12H19"></path>
@@ -219,8 +225,7 @@
         </div>
 
         <div id="dialog-2" class="transicion-dialogo">
-            <p class="texto-dialogo">I choose you in every single breath. Through every mile of distance, 
-                through the late night calls, through the laughter</p>
+            <p class="texto-dialogo">I choose you in every single breath. Through every mile of distance, through the late night calls, through the laughter.</p>
             <div class="flecha-dialogo" onclick="mostrarPropuestaFinal()">
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#dc9cad" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <path d="M5 12H19"></path>
@@ -230,8 +235,7 @@
         </div>
 
         <div id="final-proposal">
-            <p class="final-p">I have chosen you every single day since we met. Now, I'm asking you to choose me back.
-Will you be my girlfriend?</p>
+            <p class="final-p">I have chosen you every single day since we met. Now, I'm asking you to choose me back. <br><br>Will you be my girlfriend?</p>
             <div style="display: flex; gap: 15px;">
                 <button onclick="aceptarPropuesta(event)">Yes</button>
                 <button onclick="aceptarPropuesta(event)">No</button>
@@ -245,7 +249,6 @@ Will you be my girlfriend?</p>
     <script>
         let myFlipBook = null;
 
-        // Timers iniciales de la landing (4 y 6 segundos)
         function iniciarTimersLanding() {
             document.getElementById('pregunta-texto').style.opacity = '0';
             document.getElementById('pregunta-texto').style.transform = 'translateY(20px)';
@@ -265,14 +268,12 @@ Will you be my girlfriend?</p>
 
         window.onload = iniciarTimersLanding;
 
-        // Opción NO (Ruso)
         function rechazar() {
             document.getElementById('landing-page').style.display = 'none';
             document.getElementById('fondo-body').style.display = 'none';
             document.getElementById('pantalla-negra').style.display = 'flex';
         }
 
-        // Volver del rechazo
         function volverInicio() {
             document.getElementById('pantalla-negra').style.display = 'none';
             document.getElementById('fondo-body').style.display = 'block';
@@ -280,27 +281,24 @@ Will you be my girlfriend?</p>
             iniciarTimersLanding(); 
         }
 
-        // Opción SÍ -> Inicia el Zine chico y single-page
         function empezarZine() {
             document.getElementById('landing-page').style.display = 'none';
             document.getElementById('fondo-body').style.display = 'none';
             document.getElementById('zine-wrapper').style.display = 'flex';
 
-            // Pausa invisible de 50ms para evitar cuelgues de la biblioteca
             setTimeout(() => {
                 if (!myFlipBook) {
                     myFlipBook = new St.PageFlip(document.getElementById('flipbook'), {
-                        width: 350,          /* Ancho fijo chico */
-                        height: 500,         /* Alto fijo chico */
-                        size: "stretch",     /* Mantenemos el que te funcionaba */
-                        minWidth: 300,
-                        maxWidth: 350,       /* No dejamos que crezca más */
-                        minHeight: 420,
-                        maxHeight: 500,      /* No dejamos que crezca más */
-                        maxShadowOpacity: 0.5, 
-                        showCover: true,     /* Portada sola, páginas internas single */
+                        width: 350,          
+                        height: 500,         
+                        size: "fit",     /* Ajusta perfecto sin deformar ni dejar huecos */
+                        minWidth: 280,
+                        maxWidth: 400,       
+                        minHeight: 400,
+                        maxHeight: 600,      
+                        maxShadowOpacity: 0.15, 
+                        showCover: true,     
                         mobileScrollSupport: false,
-                        // ESTO ES CLAVE: UNA SOLA PÁGINA A LA VEZ
                         display: 'single' 
                     });
                     myFlipBook.loadFromHTML(document.querySelectorAll('.page'));
@@ -308,17 +306,14 @@ Will you be my girlfriend?</p>
             }, 50);
         }
 
-        // NUEVA NAVEGACIÓN: Clic derecho/izquierdo sobre el libro
         function manejadorClicZine(event) {
-            // Detenemos cualquier evento interno de la biblioteca para controlar nosotros
             event.stopPropagation();
 
-            let rect = document.getElementById('flipbook').getBoundingClientRect();
-            let x = event.clientX - rect.left; // posición x adentro del libro
+            // Calculamos el ancho de la caja exacta generada por la librería para que el clic sea preciso
+            let rect = document.querySelector('.st-page-flip').getBoundingClientRect();
+            let x = event.clientX - rect.left; 
 
-            // Si clic en la mitad derecha -> Siguiente
             if (x > rect.width / 2) {
-                // Si ya estamos en la última página (p12), y clica siguiente, vamos a los diálogos
                 if (myFlipBook.getCurrentPageIndex() === myFlipBook.getPageCount() - 1) {
                     document.getElementById('zine-wrapper').style.display = 'none';
                     document.getElementById('final-section').style.display = 'block';
@@ -327,15 +322,12 @@ Will you be my girlfriend?</p>
                     myFlipBook.flipNext();
                 }
             } 
-            // Si clic en la mitad izquierda -> Anterior
             else {
                 if (myFlipBook.getCurrentPageIndex() > 0) {
                     myFlipBook.flipPrev();
                 }
             }
         }
-
-        // --- FUNCIONES DE TRANSICIÓN NARRATIVA ---
 
         function mostrarDialogo2() {
             document.getElementById('dialog-1').style.display = 'none';
@@ -347,13 +339,10 @@ Will you be my girlfriend?</p>
             document.getElementById('final-proposal').style.display = 'flex';
         }
 
-        // --- FUNCIONES DEL FINAL (SÍ O SÍ) ---
-
         function aceptarPropuesta(event) {
             event.stopPropagation(); 
             alert('Llamame ya mismo.'); 
 
-            // Aparece el botón secreto "volver" a los 6 segundos de alertar
             setTimeout(() => {
                 let btnVolver = document.getElementById('btn-volver');
                 btnVolver.style.opacity = '1';
@@ -361,7 +350,6 @@ Will you be my girlfriend?</p>
             }, 6000);
         }
 
-        // Reiniciar todo a la landing
         function reiniciarTodo(event) {
             event.stopPropagation();
             
@@ -369,13 +357,11 @@ Will you be my girlfriend?</p>
             btnVolver.style.opacity = '0';
             btnVolver.style.pointerEvents = 'none';
 
-            // Ocultamos todas las secciones finales
             document.getElementById('final-section').style.display = 'none';
             document.getElementById('final-proposal').style.display = 'none';
             document.getElementById('dialog-1').style.display = 'none';
             document.getElementById('dialog-2').style.display = 'none';
             
-            // Volvemos el libro a la portada si existe
             if (myFlipBook) {
                 myFlipBook.turnToPage(0);
             }
