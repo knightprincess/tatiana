@@ -163,9 +163,27 @@
         }
 
         #btn-volver {
-            width: 40px; margin-top: 20px; cursor: pointer;
-            opacity: 0; pointer-events: none; transition: opacity 1.5s ease;
-        }
+    margin-top: 20px; 
+    cursor: pointer; 
+    padding: 10px;
+    border-radius: 50%; 
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(5px); 
+    -webkit-backdrop-filter: blur(5px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    opacity: 0; 
+    pointer-events: none; 
+    /* Transiciones separadas para que el hover funcione bien con la aparición lenta */
+    transition: opacity 1.5s ease, transform 0.3s ease, background 0.3s ease;
+    display: flex; 
+    justify-content: center; 
+    align-items: center;
+}
+
+#btn-volver:hover {
+    background: rgba(255, 255, 255, 0.2); 
+    transform: scale(1.1);
+}
 
     </style>
 </head>
@@ -251,7 +269,11 @@ Will you be my girlfriend?</p>
                 <button onclick="aceptarPropuesta(event, true)">Yes</button>
                 <button onclick="aceptarPropuesta(event, false)">No</button>
             </div>
-            <img src="img/boton-volver.png" id="btn-volver" onclick="reiniciarTodo(event)" alt="Volver al inicio">
+            <div id="btn-volver" onclick="reiniciarTodo(event)" title="Volver al inicio">
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#dc9cad" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M19 12H5"></path>
+        <polyline points="12 19 5 12 12 5"></polyline>
+    </svg></div>
         </div>
     </div>
 
