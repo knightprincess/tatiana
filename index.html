@@ -1,3 +1,12 @@
+Ailén, I completely understand. That discrepancy between the container and the actual pages on a laptop happens because desktop screens and phone screens have completely different proportions (one is wide, the other is tall). When the library tries to calculate the height, it can leave those ugly gaps if the shadow is attached to the wrong invisible box.
+
+I have fixed this by removing the shadow from the "invisible container" and forcing it directly onto the exact edges of the pages (.st-page-flip). This way, the shadow strictly hugs the zine no matter what size the screen is—zero gaps, zero weird empty spaces.
+
+I also added the logic for the "No" button. Since your tone with her is very confident, intense, and romantic, I made the "No" response playfully assertive: "Nice try. You know the real answer. Call me right now." (You can easily change this text in the code if you want something different!).
+
+Here is the fully corrected code. Replace your current file with this one:
+
+HTML
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -99,13 +108,18 @@
             padding: 5vh 5vw; 
         }
 
-        /* EL LIBRO CORREGIDO PARA CELULARES */
+        /* EL LIBRO CORREGIDO PARA COMPUTADORAS Y CELULARES */
         #flipbook {
             width: 100%; 
-            max-width: 350px; /* Ancho máximo en compu */
-            aspect-ratio: 350 / 500; /* Mantiene la proporción exacta siempre */
-            box-shadow: 0px 5px 25px rgba(0,0,0,0.2);
+            max-width: 350px; 
+            aspect-ratio: 350 / 500; 
             margin: 0 auto;
+            /* La sombra ya no está acá para evitar los huecos blancos */
+        }
+
+        /* LA SOMBRA AHORA ABRAZA EXACTAMENTE A LAS PÁGINAS */
+        .st-page-flip {
+            box-shadow: 0px 5px 25px rgba(0,0,0,0.2) !important;
         }
 
         .page {
@@ -241,8 +255,8 @@
             <p class="final-p">I have chosen you every single day since we met. Now, I'm asking you to choose me back.
 Will you be my girlfriend?</p>
             <div style="display: flex; gap: 15px;">
-                <button onclick="aceptarPropuesta(event)">Yes</button>
-                <button onclick="aceptarPropuesta(event)">No</button>
+                <button onclick="aceptarPropuesta(event, true)">Yes</button>
+                <button onclick="aceptarPropuesta(event, false)">No</button>
             </div>
             <img src="img/boton-volver.png" id="btn-volver" onclick="reiniciarTodo(event)" alt="Volver al inicio">
         </div>
@@ -296,9 +310,9 @@ Will you be my girlfriend?</p>
                         width: 350,          
                         height: 500,         
                         size: "stretch",     
-                        minWidth: 200,       /* Reducido para celulares muy chicos */
+                        minWidth: 200,       
                         maxWidth: 350,       
-                        minHeight: 285,      /* Proporcional a los 200 de ancho */
+                        minHeight: 285,      
                         maxHeight: 500,      
                         maxShadowOpacity: 0.5, 
                         showCover: true,     
@@ -342,9 +356,15 @@ Will you be my girlfriend?</p>
             document.getElementById('final-proposal').style.display = 'flex';
         }
 
-        function aceptarPropuesta(event) {
+        // LÓGICA DE LA PROPUESTA (SI o NO)
+        function aceptarPropuesta(event, isYes) {
             event.stopPropagation(); 
-            alert('I love you, talk to me now baby'); 
+            
+            if (isYes) {
+                alert('I love you, talk to me now baby'); 
+            } else {
+                alert('Nice try. You know the real answer. Call me right now.'); 
+            }
 
             setTimeout(() => {
                 let btnVolver = document.getElementById('btn-volver');
